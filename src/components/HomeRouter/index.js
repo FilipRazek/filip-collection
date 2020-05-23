@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import AboutPage from '../AboutPage'
+import Database from '../Database'
 import HelpPage from '../HelpPage'
 import Home from '../Home'
 import NumeralConverter from '../NumeralConverter'
@@ -10,6 +11,7 @@ import TwentyThreeOrBust from '../TwentyThreeOrBust'
 
 const HomeRouter = () => {
   const links = [
+    { path: '/database', label: 'Database', component: <Database /> },
     { path: '/morse', label: 'Morse', component: <Morse /> },
     {
       path: '/twenty-three-or-bust',
