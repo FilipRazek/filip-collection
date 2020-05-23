@@ -1,0 +1,16 @@
+.settings-dialog__text {
+  text-align: center;
+  font-size: 6vh;
+  max-width: 90%;
+}
+
+.settings-dialog__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.settings-dialog__actions {
+  display: flex;
+  justify-content: center;
+}

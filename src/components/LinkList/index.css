@@ -1,0 +1,7 @@
+.link-list__list {
+  list-style-type: square;
+}
+
+.link-list__link:active{
+  color: var(--dark-blue);
+}

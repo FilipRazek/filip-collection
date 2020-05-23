@@ -1,0 +1,19 @@
+.image {
+  font-size: 60%;
+  max-height: 100%;
+  max-width: 100%;
+  cursor: default;
+}
+
+.image-hint {
+  visibility: hidden;
+}
+
+.image-hint--visible {
+  visibility: visible;
+  cursor: pointer;
+}
+
+.image--clickable {
+  cursor: pointer;
+}

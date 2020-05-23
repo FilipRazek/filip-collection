@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" 
+  xmlns="http://www.w3.org/2000/svg" 
+  xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 640 640" width="640" height="640">
+  <defs>
+    <path d="M420 217.5L520 305L320 305L120 305L219.99 217.5L320 130L420 217.5Z" id="aebjP3R2Z"></path>
+    <path d="M190 305L282 305L282 480L190 480L190 305Z" id="a2G1BgnpiN"></path>
+    <path d="M357.99 305L450 305L450 480L357.99 480L357.99 305Z" id="c75OWpQnMo"></path>
+    <path d="M190 300L450 300L450 350L190 350L190 300Z" id="b3eKYrZ6a"></path>
+  </defs>
+  <g>
+    <g>
+      <g>
+        <use xlink:href="#aebjP3R2Z" opacity="1" fill="#fafafa" fill-opacity="1"></use>
+      </g>
+      <g>
+        <use xlink:href="#a2G1BgnpiN" opacity="1" fill="#fafafa" fill-opacity="1"></use>
+      </g>
+      <g>
+        <use xlink:href="#c75OWpQnMo" opacity="1" fill="#fafafa" fill-opacity="1"></use>
+      </g>
+      <g>
+        <use xlink:href="#b3eKYrZ6a" opacity="1" fill="#fafafa" fill-opacity="1"></use>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,39 @@
+.morse-test__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.morse-test__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 80%;
+  height: 80%;
+}
+
+.morse-test__settings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 4vh;
+}
+
+.morse-test__settings-element {
+  height: 1.5em;
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.morse-test__settings-element-title {
+  margin: 0;
+}

@@ -1,0 +1,72 @@
+:root {
+  --v: '1';
+}
+
+.circle {
+  margin: 3%;
+  width: 10vh;
+  height: 10vh;
+  border: 1px solid var(--black);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle--clickable:hover {
+  transform: scale(1.1);
+}
+
+.circle--big {
+  width: 20vh;
+  height: 20vh;
+  font-size: 250%;
+}
+
+.circle--won {
+  background-color: var(--light-green);
+}
+
+.circle--lost {
+  background-color: var(--light-red);
+}
+
+.circle--disabled {
+  background-color: var(--light-gray);
+}
+
+.circle__text {
+  margin: 0;
+  cursor: default;
+}
+
+.circle--clickable,
+.circle__text--clickable {
+  cursor: pointer;
+}
+
+.circle__text--appear {
+  animation: appear .3s linear;
+}
+
+.circle__text--disappear {
+  animation: disappear .3s linear;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes disappear {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

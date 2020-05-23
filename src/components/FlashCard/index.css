@@ -1,0 +1,65 @@
+.flash-card {
+  border: 1px solid var(--black);
+  border-radius: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 15vh;
+  color: var(--black);
+  width: 50vh;
+  height: 50vh;
+  background-color: var(--color);
+  margin: auto;
+  -moz-user-select: -moz-none;
+}
+
+.flash-card--clickable {
+  cursor: pointer;
+}
+
+.flash-card--clickable:hover {
+  transform: scale(1.1);
+}
+
+.flash-card--medium {
+  width: 20vh;
+  height: 20vh;
+  font-size: 5vh;
+}
+
+.flash-card--small {
+  width: 10vh;
+  height: 10vh;
+  font-size: 3vh;
+}
+
+.flash-card--change-color {
+  animation: change-color var(--animation-duration) linear;
+}
+
+.flash-card__text,
+.flash-card__help-text {
+  margin: 0.5vh 0;
+}
+
+.flash-card__help-text {
+  font-size: 5vh;
+  color: var(--dark-gray);
+}
+
+.flash-card__help-text--medium {
+  font-size: 3vh;
+}
+
+@keyframes change-color {
+  0% {
+    background-color: var(--color);
+  }
+  50% {
+    background-color: var(--animate-color);
+  }
+  100% {
+    background-color: var(--color);
+  }
+}

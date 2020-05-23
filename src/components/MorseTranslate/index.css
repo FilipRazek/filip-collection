@@ -1,0 +1,31 @@
+.morse-translate__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.morse-translate__container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 80%;
+  height: 100%;
+}
+
+.morse-translate__format-button {
+  margin: 1%;
+  min-height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.morse-translate__input-field {
+  height: 60%;
+  margin: 5px;
+  padding: 5px;
+  width: 45%;
+}

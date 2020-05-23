@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" 
+  xmlns="http://www.w3.org/2000/svg" 
+  xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 640 640" width="640" height="640">
+  <defs>
+    <path d="M391.8 320L520 448.2L448.21 520L320 391.79L191.8 520L120 448.2L248.21 320L120 191.79L191.8 120L320 248.2L448.21 120L520 191.79L391.8 320Z" id="b2QMsUBXsA"></path>
+  </defs>
+  <g>
+    <g>
+      <g>
+        <use xlink:href="#b2QMsUBXsA" opacity="1" fill="#00b0ff" fill-opacity="1"></use>
+        <g>
+          <use xlink:href="#b2QMsUBXsA" opacity="1" fill-opacity="0" stroke="#8b5c15" stroke-width="0" stroke-opacity="1"></use>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

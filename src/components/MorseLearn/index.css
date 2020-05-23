@@ -1,0 +1,30 @@
+.morse-learn__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.morse-learn__container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 80%;
+  height: 100%;
+}
+
+.morse-learn__flash-cards {
+  width: 90%;
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.morse-learn__flash-cards-info {
+  width: 30%;
+  text-align: center;
+  margin-right: 5vw;
+}

@@ -1,0 +1,32 @@
+.button {
+  margin: 10px;
+  padding: 3px 20px;
+  min-width: 64px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.button::-moz-focus-inner {
+  border: 0;
+}
+
+.button--default {
+  background-color: var(--dark-blue);
+  border: 1px solid var(--white);
+  color: var(--white);
+  border-radius: 6px;
+}
+
+.button--secondary {
+  background-color: var(--white);
+  border: 1px solid var(--dark-blue);
+  color: var(--dark-blue);
+  border-radius: 6px;
+}
+
+.button--default-disabled {
+  background-color: var(--light-gray);
+  border: 1px solid var(--dark-gray);
+  color: var(--dark-gray);
+  cursor: default;
+}

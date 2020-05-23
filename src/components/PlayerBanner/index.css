@@ -1,0 +1,36 @@
+.player-banner__container {
+  width: 30%;
+  height: 100%;
+  background-color: var(--bg-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.player-banner__ai-toggle {
+  margin-top: 10%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.player-banner__ai-toggle-text {
+  margin: 0 1vw 0 0;
+}
+
+.player-banner__name {
+  font-size: 150%;
+}
+
+.player-banner__score-text-container {
+  height: 1vh;
+  font-size: 110%;
+}
+
+.player-banner__result {
+  height: 5%;
+  margin-top: 10%;
+  font-size: 200%;
+  text-transform: uppercase;
+}

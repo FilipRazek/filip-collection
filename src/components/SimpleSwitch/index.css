@@ -1,0 +1,36 @@
+.simple-switch__container {
+  margin: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 45px;
+}
+
+.simple-switch__switch {
+  width: 80%;
+  background: transparent;
+  cursor: pointer;
+  margin: 0;
+}
+
+.simple-switch__switch::-moz-focus-outer {
+  border: 0;
+}
+
+.simple-switch__switch::-moz-range-track {
+  height: 20px;
+  width: 100%;
+  padding-right: 8%;
+  padding-left: 8%;
+  background: var(--switch-color);
+  border-radius: 10px;
+}
+
+.simple-switch__switch::-moz-range-thumb {
+  border: 0px;
+  height: 16px;
+  width: 16px;
+  border-radius: 10px;
+  background: var(--white);
+}

@@ -1,0 +1,15 @@
+.confirm-manual-dialog__text {
+  text-align: center;
+  max-width: 80%;
+}
+
+.confirm-manual-dialog__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.confirm-manual-dialog__actions {
+  display: flex;
+  justify-content: center;
+}

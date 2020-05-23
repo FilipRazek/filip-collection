@@ -1,0 +1,19 @@
+.cell {
+  border: 1px solid var(--black);
+  width: 30%;
+  height: 30%;
+  display: flex;
+  justify-content: center;
+}
+
+.cell--playable {
+  background-color: var(--light-green);
+}
+
+.cell--won-circle {
+  background-color: var(--light-orange);
+}
+
+.cell--won-cross {
+  background-color: var(--light-blue);
+}
