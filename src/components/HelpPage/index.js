@@ -3,7 +3,7 @@ import Header from '../Header'
 import './index.css'
 
 export default () => {
-  // TODO: Add back button
+  // TODO: Add back button (and help tutorials)
   return (
     <div className='help-page__body'>
       <Header title='Help' noHelpLink />
