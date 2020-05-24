@@ -1,15 +1,13 @@
 export default text => {
   const textList = text.split('')
-  for (let i = 0; i < textList.length; i++) {
-    let j = 0
-    while (i + j < textList.length && text[i] === text[i + j]) {
-      j++
+  let j = 0
+  for (let i = 0; i < textList.length; i += j) {
+    j = 0
+    while (i + j < textList.length && textList[i] === textList[i + j]) j++
+    if (j >= 4) {
+      textList.splice(i + 1, j - 2, '...')
+      j = 3
     }
-    if (j >= 5) {
-      textList.splice(i + 1, j - 4, '...')
-    }
-    i++
-    i++
   }
   return textList.join('')
 }
