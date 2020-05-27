@@ -43,7 +43,6 @@ const FlashCard = React.forwardRef((props, ref) => {
       ) : props.isInput ? (
         <input
           ref={ref}
-          autoFocus={props.autoFocus}
           onFocus={props.onFocus}
           onChange={props.onChange}
           className='flash-card__input'

@@ -70,6 +70,7 @@ export default () => {
       <div className='numeral-converter__container'>
         <div className='numeral-converter__input-container'>
           <input
+            autoFocus
             className='numeral-converter__input-field'
             placeholder='Roman numeral to convert'
             value={numeral}

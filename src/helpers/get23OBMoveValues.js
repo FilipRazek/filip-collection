@@ -1,11 +1,11 @@
-const getPositionConstant = value => Array.from({ length: 5 }, () => value)
+import getConstantArray from './getConstantArray'
 
 export default score => {
   // Should not be called on a finished board
   // Stores position scores for scores between the current score
   // and 27
   const positions = Array.from({ length: 5 }, (_, index) =>
-    getPositionConstant(index ? 1 : 0)
+    getConstantArray(5, index ? 1 : 0)
   )
   while (positions.length < 27 - score) {
     const scoreValues = []

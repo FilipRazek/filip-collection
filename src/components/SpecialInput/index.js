@@ -17,30 +17,52 @@ export default props => {
     setCaret,
     hideKeys,
     hideBackspace,
+    wrongInput,
+    otherInput,
   } = props
 
   const getCaretLeft = React.useCallback(
-    () => (caret ? caret - 1 : fixedLength - 1),
-    [caret, fixedLength]
+    (onlyEmpty = false) => {
+      let i = 1
+      while (
+        onlyEmpty &&
+        text[caret >= i ? caret - i : fixedLength + caret - i] !== '_' &&
+        i !== fixedLength
+      ) {
+        i++
+      }
+      return caret >= i ? caret - i : fixedLength + caret - i
+    },
+    [caret, fixedLength, text]
   )
-  const getCaretRight = React.useCallback(() => (caret + 1) % fixedLength, [
-    caret,
-    fixedLength,
-  ])
-  const moveLeft = React.useCallback(() => setCaret(getCaretLeft()), [
-    getCaretLeft,
-    setCaret,
-  ])
-  const moveRight = React.useCallback(() => setCaret(getCaretRight()), [
-    getCaretRight,
-    setCaret,
-  ])
+  const getCaretRight = React.useCallback(
+    (onlyEmpty = false) => {
+      let i = 1
+      while (
+        onlyEmpty &&
+        text[(caret + i) % fixedLength] !== '_' &&
+        i !== fixedLength
+      ) {
+        i++
+      }
+      return (caret + i) % fixedLength
+    },
+    [caret, fixedLength, text]
+  )
+  const moveLeft = React.useCallback(
+    (onlyEmpty = false) => setCaret(getCaretLeft(onlyEmpty)),
+    [getCaretLeft, setCaret]
+  )
+  const moveRight = React.useCallback(
+    (onlyEmpty = false) => setCaret(getCaretRight(onlyEmpty)),
+    [getCaretRight, setCaret]
+  )
   const deleteCharacter = React.useCallback(
     (position = caret) => setText(copyInsert(text, position, '_')),
     [caret, text, setText]
   )
   const backspace = React.useCallback(() => {
-    if (fixedLength) {
+    if (fixedLength !== undefined) {
       moveLeft()
       deleteCharacter(getCaretLeft())
     } else {
@@ -61,10 +83,10 @@ export default props => {
   ])
   const clickKey = React.useCallback(
     key => {
-      if (fixedLength) {
+      if (fixedLength !== undefined) {
         const newText = copyInsert(text, caret, key)
 
-        moveRight()
+        moveRight(true)
         setText(newText)
       } else {
         if (text.length < 7 && !animatedQuestionLetter) {
@@ -92,14 +114,14 @@ export default props => {
     e => {
       const SUPPORTED_KEYS = keys ? keys : availableLetters
 
-      if (fixedLength && caret === -1) return
+      if (fixedLength !== undefined && caret === -1) return
 
       if (e.key === 'Backspace') {
         e.preventDefault()
         backspace()
       }
 
-      if (fixedLength) {
+      if (fixedLength !== undefined) {
         if ([' ', '_', '.'].includes(e.key)) {
           clickKey('_')
         } else {
@@ -107,6 +129,8 @@ export default props => {
             Delete: deleteCharacter,
             ArrowRight: moveRight,
             ArrowLeft: moveLeft,
+            ArrowUp: () => moveLeft(true),
+            ArrowDown: () => moveRight(true),
           }[e.key]
           if (functionToCall) {
             e.preventDefault()
@@ -159,14 +183,29 @@ export default props => {
           <p
             className={[
               'special-input__input-key',
+              key === '_' &&
+                otherInput[index] !== '_' &&
+                'special-input__input-key--hint',
+              key === '_' &&
+                otherInput[index] !== '_' &&
+                index === caret &&
+                'special-input__input-key--selected-and-hint',
               index === caret && 'special-input__input-key--selected',
+              wrongInput[index] && 'special-input__input-key--wrong',
+              wrongInput[index] &&
+                index === caret &&
+                'special-input__input-key--selected-and-wrong',
             ]
               .filter(Boolean)
               .join(' ')}
             onClick={() => props.onCellClick(index)}
             key={key + ', ' + index}
           >
-            {fixedLength && !index ? key.toUpperCase() : key}
+            {key === '_' && otherInput[index] !== '_'
+              ? `(${otherInput[index]})`
+              : fixedLength !== undefined && !index
+              ? key.toUpperCase()
+              : key}
           </p>
         ))}
       </div>

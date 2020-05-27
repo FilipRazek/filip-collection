@@ -1,1 +1,3 @@
-export const EMPTY_BOARD = Array.from({ length: 9 }, () => 0)
+import getConstantArray from '../helpers/getConstantArray'
+
+export const EMPTY_BOARD = getConstantArray(9, 0)

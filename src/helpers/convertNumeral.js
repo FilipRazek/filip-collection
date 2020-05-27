@@ -1,5 +1,6 @@
-import { LEGAL_LETTERS, LETTER_VALUE } from '../constants/romanNumerals'
 import arrayPad from './arrayPad'
+import getConstantArray from './getConstantArray'
+import { LEGAL_LETTERS, LETTER_VALUE } from '../constants/romanNumerals'
 
 const greater_than = (a, b) =>
   LEGAL_LETTERS.indexOf(a) > LEGAL_LETTERS.indexOf(b)
@@ -109,7 +110,7 @@ const getNumeralFromArabicDigit = (digit, index) => {
     case '0':
       return []
     default:
-      const units = Array.from({ length: digit % 5 }, () => unit)
+      const units = getConstantArray(digit % 5, unit)
       return digit >= 5 ? [quint, ...units] : units
   }
 }
@@ -122,10 +123,8 @@ export const arabicToRoman = numeral => {
     'left',
     3
   )
-  const thousands = Array.from(
-    { length: Math.floor(numeral / 1000) },
-    () => 'M'
-  )
+  const thousands = getConstantArray(Math.floor(numeral / 1000), 'M')
+
   const underThousand = splitNumeral.reduce(
     (acc, digit, index) => [...acc, ...getNumeralFromArabicDigit(digit, index)],
     []

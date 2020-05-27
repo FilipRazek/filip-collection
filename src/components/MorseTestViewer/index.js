@@ -72,7 +72,7 @@ export default props => {
       setAnimatedAnswer(true)
 
       const newAnimationColors = {}
-      newAnimationColors[answer] = 'error'
+      newAnimationColors[answer] = 'red'
       newAnimationColors[getCurrentAnswer()] = 'green'
 
       setAnimationColors(newAnimationColors)

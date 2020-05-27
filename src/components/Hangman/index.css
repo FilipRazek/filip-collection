@@ -8,12 +8,15 @@
 }
 
 .hangman__letters {
-  margin-top: 4%;
   max-height: 40%;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.hangman__letters-info {
+  margin-bottom: 1%;
 }
 
 .hangman__body {
@@ -47,4 +50,30 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+
+.hangman__input-text-length-div {
+  height: 100%;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hangman__reset-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hangman__output-best-letter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10%;
+}
+
+.hangman__output-best-letter-text {
+  margin: 0;
 }

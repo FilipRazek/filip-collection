@@ -42,7 +42,25 @@
   cursor: default;
 }
 
+.special-input__input-key--wrong {
+  color: var(--red);
+  border: 2px solid var(--light-red);
+}
+
+.special-input__input-key--hint {
+  color: var(--light-gray);
+}
+
 .special-input__input-key--selected {
   background-color: var(--light-gray);
   border: 2px solid var(--dark-gray);
+}
+
+.special-input__input-key--selected-and-hint {
+  color: var(--gray);
+}
+
+.special-input__input-key--selected-and-wrong {
+  background-color: var(--light-red);
+  border: 2px solid var(--red);
 }
