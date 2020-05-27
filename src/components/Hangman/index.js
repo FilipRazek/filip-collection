@@ -23,6 +23,7 @@ export default () => {
   // TODO: Store first two moves in memory
   // TODO: Add in-between move to gather more information
   // TODO: Add option to distinguish I from l
+  // TODO: Move solver to helper
   const [words, setWords] = React.useState([])
   const [justLoaded, setJustLoaded] = React.useState(false)
   const [excludedLetters, setExcludedLetters] = React.useState(
