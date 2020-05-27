@@ -10,6 +10,6 @@ const WINNING_ALIGNEMENTS = [
 ]
 
 export default (board, player) =>
-  WINNING_ALIGNEMENTS.find(alignement =>
+  WINNING_ALIGNEMENTS.some(alignement =>
     alignement.every(cell => board[cell] === player)
   )

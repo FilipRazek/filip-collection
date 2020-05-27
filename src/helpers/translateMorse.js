@@ -21,7 +21,7 @@ export const translateToMorse = message =>
       .toLowerCase()
       .split('')
       .map(letter =>
-        Object.keys(MORSE_TABLE).find(key => key === letter)
+        Object.keys(MORSE_TABLE).some(key => key === letter)
           ? MORSE_TABLE[letter]
           : '#'
       )

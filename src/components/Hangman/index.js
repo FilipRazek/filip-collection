@@ -13,12 +13,10 @@ const getDefaultExcludedLetters = () =>
 const getEmptyString = length => Array.from({ length }, () => '_')
 
 export default () => {
-  // TODO: Uniformize some and find
   // TODO: Add tests
-  // TODO: Serve file with express to deploy app
   // TODO: Make excluded letters smaller
   // TODO: Add +/- buttons for length
-  // TODO: Add option to select suggested letter (plat it)
+  // TODO: Add option to select suggested letter (plan it)
   // TODO: Add two keyboard modes (edit selected & edit word)
   // TODO: Add suggested letter
   const [words, setWords] = React.useState([])
@@ -69,14 +67,14 @@ export default () => {
       return words.filter(
         word =>
           hangmanMatches(word, text) &&
-          !word.split('').find(letter => excluded[letter])
+          !word.split('').some(letter => excluded[letter])
       )
     },
     [words, excludedLetters, inputText]
   )
   const updateInputText = input => {
     const newCandidates = findCandidates({ text: input })
-    setErrorInInput(!!input.find(letter => excludedLetters[letter]))
+    setErrorInInput(input.some(letter => excludedLetters[letter]))
     setCandidates(newCandidates)
     setInputText(input)
   }
@@ -86,7 +84,7 @@ export default () => {
       [letter]: !excludedLetters[letter],
     }
     const newCandidates = findCandidates({ excluded: newExcludedLetters })
-    setErrorInInput(!!inputText.find(letter => newExcludedLetters[letter]))
+    setErrorInInput(inputText.some(letter => newExcludedLetters[letter]))
     setCandidates(newCandidates)
     setExcludedLetters(newExcludedLetters)
   }
