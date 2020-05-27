@@ -135,6 +135,7 @@ export default () => {
       const data = await fetch('english_words.txt')
       const text = await data.text()
       const newWords = text.split('\r\n')
+      console.log('Words', newWords.length)
       setWords(newWords)
     }
     getWords()
