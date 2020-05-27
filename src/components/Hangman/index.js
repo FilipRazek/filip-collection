@@ -124,16 +124,24 @@ export default () => {
   )
   const updateBestLetter = React.useCallback(
     newCandidates => {
-      const availableLetters = LOWERCASE_ALPHABET.filter(
-        letter => !inputText.includes(letter)
+      const necessaryLetter = guessableInput.find(
+        (letter, index) => inputText[index] === '_' && letter !== '_'
       )
-      const scores = availableLetters.map(getLetterScore(newCandidates))
-      const bestScore = Math.min(...scores)
-      setBestLetter(
-        availableLetters.find((_, index) => scores[index] === bestScore)
-      )
+      console.log(necessaryLetter)
+      if (necessaryLetter) {
+        setBestLetter(necessaryLetter)
+      } else {
+        const availableLetters = LOWERCASE_ALPHABET.filter(
+          letter => !inputText.includes(letter)
+        )
+        const scores = availableLetters.map(getLetterScore(newCandidates))
+        const bestScore = Math.min(...scores)
+        setBestLetter(
+          availableLetters.find((_, index) => scores[index] === bestScore)
+        )
+      }
     },
-    [inputText]
+    [inputText, guessableInput]
   )
   const updateInputText = input => {
     const newCandidates = findCandidates({ text: input })
