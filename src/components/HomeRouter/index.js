@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import AboutPage from '../AboutPage'
 import HelpPage from '../HelpPage'
+import Hangman from '../Hangman'
 import Home from '../Home'
 import NumeralConverter from '../NumeralConverter'
 import Morse from '../Morse'
@@ -10,6 +11,7 @@ import TwentyThreeOrBust from '../TwentyThreeOrBust'
 
 const HomeRouter = () => {
   const links = [
+    { path: '/hangman', label: 'Hangman solver', component: <Hangman /> },
     { path: '/morse', label: 'Morse', component: <Morse /> },
     {
       path: '/twenty-three-or-bust',

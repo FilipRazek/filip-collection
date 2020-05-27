@@ -1,4 +1,5 @@
 :root {
+  --transparent: rgba(repeat(4, 0));
   --black: #212121;
   --blue: #00b0ff;
   --dark-blue: #661fff;
@@ -16,6 +17,7 @@
   --light-red: #ffcdd2;
   --purple: #4a148c;
   --orange: #ff9100;
+  --red: #ef5350;
   --white: #fafafa;
 }
 

@@ -22,7 +22,9 @@ export default props => {
     window.addEventListener('keydown', handleKeyEvent)
     return () => window.removeEventListener('keydown', handleKeyEvent)
   }, [handleKeyEvent])
-  const remainingLetters = React.useCallback(Object.keys(MORSE_TABLE).length - excludedLetters.length + 1)
+  const remainingLetters = React.useCallback(
+    Object.keys(MORSE_TABLE).length - excludedLetters.length + 1
+  )
 
   React.useEffect(handleListener)
   React.useEffect(
@@ -42,11 +44,15 @@ export default props => {
               You have learned everything there was to learn. Test yourself now!
             </p>
           )}
-          <Button
-            defaultStyles
-            text={chosenLetter ? `Next symbol (${remainingLetters} left)` : 'Test'}
-            onClick={nextLetter}
-          />
+          <div className='morse-learn__next-button'>
+            <Button
+              defaultStyles
+              text={
+                chosenLetter ? `Next symbol (${remainingLetters} left)` : 'Test'
+              }
+              onClick={nextLetter}
+            />
+          </div>
           {chosenLetter && <FlashCard text={MORSE_TABLE[chosenLetter]} />}
         </div>
       </div>

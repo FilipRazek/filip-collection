@@ -1,0 +1,50 @@
+.hangman__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.hangman__letters {
+  margin-top: 4%;
+  max-height: 40%;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hangman__body {
+  height: 100%;
+  width: 95%;
+  display: flex;
+  align-items: center;
+}
+
+.hangman__output-div,
+.hangman__input-div {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hangman__output-div {
+  border-left: 1px solid var(--purple);
+  width: 33vw;
+}
+
+.hangman__input-div {
+  padding-right: 3vw;
+  width: 70vw;
+}
+
+.hangman__input-text-div {
+  width: 100%;
+  height: 40%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}

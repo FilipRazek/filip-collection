@@ -8,8 +8,9 @@ import { MORSE_TABLE } from '../../constants/morse'
 import './index.css'
 
 export default props => {
+  // TODO: Add dialog on help/home button click (when testing)
   const [score, setScore] = React.useState(0)
-  const [tries, setTries] = React.useState(1)
+  const [tries, setTries] = React.useState(0)
   const [ticks, setTicks] = React.useState(0)
   const [animatedAnswer, setAnimatedAnswer] = React.useState(false)
   const [animationColors, setAnimationColors] = React.useState({})
@@ -17,6 +18,7 @@ export default props => {
   const [animatedQuestionLetter, setAnimatedQuestionLetter] = React.useState(
     false
   )
+  const [answer, setAnswer] = React.useState([])
 
   const {
     poolReverse,
@@ -30,16 +32,15 @@ export default props => {
 
   const reset = () => {
     setScore(0)
-    setTries(1)
+    setTries(0)
     setTicks(0)
   }
-  const getCurrentReverse = React.useCallback(() => poolReverse[tries - 1], [
+  const getCurrentReverse = React.useCallback(() => poolReverse[tries], [
     poolReverse,
     tries,
   ])
   const getCurrentLetter = React.useCallback(
-    () =>
-      getCurrentReverse() ? MORSE_TABLE[pool[tries - 1]] : pool[tries - 1],
+    () => (getCurrentReverse() ? MORSE_TABLE[pool[tries]] : pool[tries]),
     [pool, getCurrentReverse, tries]
   )
   const getCurrentAnswer = React.useCallback(
@@ -63,23 +64,26 @@ export default props => {
     const answers = shuffle([...otherAnswers, correctAnswer])
     setAnswers(answers)
   }
-  const testAnswer = React.useCallback(answer => {
-    if (answer === getCurrentAnswer()) {
-      setScore(score + 1)
-    }
-    setAnimatedAnswer(true)
+  const testAnswer = React.useCallback(
+    answer => {
+      if (answer === getCurrentAnswer()) {
+        setScore(score + 1)
+      }
+      setAnimatedAnswer(true)
 
-    const newAnimationColors = {}
-    newAnimationColors[answer] = 'error'
-    newAnimationColors[getCurrentAnswer()] = 'green'
+      const newAnimationColors = {}
+      newAnimationColors[answer] = 'error'
+      newAnimationColors[getCurrentAnswer()] = 'green'
 
-    setAnimationColors(newAnimationColors)
-  }, [getCurrentAnswer, score])
+      setAnimationColors(newAnimationColors)
+    },
+    [getCurrentAnswer, score]
+  )
   const hardModeNext = () => {
     setAnimatedQuestionLetter(true)
   }
   const getScoreText = () => {
-    const remaining = pool.length - tries + (animatedAnswer ? 0 : 1)
+    const remaining = pool.length - tries - 1 + (animatedAnswer ? 0 : 1)
     if (hardMode) {
       return (
         <>
@@ -102,18 +106,21 @@ export default props => {
   }
   const setTimer = () => {
     const interval = setInterval(() => {
-      if (pool.length - tries + (animatedAnswer ? 0 : 1)) {
+      if (pool.length - tries - 1 + (animatedAnswer ? 0 : 1)) {
         setTicks(ticks + 1)
       }
     }, 100)
     return () => clearInterval(interval)
   }
-  const handleKeyEvent = React.useCallback(e => {
-    if (answers.includes(e.key)) {
-      e.preventDefault()
-      testAnswer(e.key)
-    }
-  }, [answers, testAnswer])
+  const handleKeyEvent = React.useCallback(
+    e => {
+      if (answers.includes(e.key)) {
+        e.preventDefault()
+        testAnswer(e.key)
+      }
+    },
+    [answers, testAnswer]
+  )
   const handleListener = React.useCallback(() => {
     if (!hardMode) {
       window.addEventListener('keydown', handleKeyEvent)
@@ -129,41 +136,46 @@ export default props => {
   return (
     <div className='morse-test-viewer__body'>
       {getScoreText()}
-      {tries - 1 === pool.length && (
+      {tries === pool.length && (
         <Button defaultStyles text='New game' onClick={newGame}></Button>
       )}
-      {tries - 1 < pool.length && (
+      {tries < pool.length && (
         <>
-          <FlashCard
-            isSymbol={!getCurrentReverse()}
-            medium
-            unhoverable
-            text={getCurrentLetter()}
-            animationDuration='0.6s'
-            onAnimationEnd={() => {
-              if (tries === pool.length) {
-                setGameDone(true)
-              }
-              setAnimatedQuestionLetter(false)
-              setTries(tries + 1)
-            }}
-            changeColor={animatedQuestionLetter}
-            animateColor='light-green'
-          />
-          <div className='morse-test-viewer__answers'>
-            {hardMode && (
+          <div className='morse-test-viewer__question-flash-card'>
+            <FlashCard
+              isSymbol={!getCurrentReverse()}
+              medium
+              unhoverable
+              text={getCurrentLetter()}
+              animationDuration='0.6s'
+              onAnimationEnd={() => {
+                if (tries === pool.length - 1) {
+                  setGameDone(true)
+                }
+                setAnimatedQuestionLetter(false)
+                setTries(tries + 1)
+                setAnswer([])
+              }}
+              changeColor={animatedQuestionLetter}
+              animateColor='light-green'
+            />
+          </div>
+          {hardMode && (
+            <div className='morse-test-viewer__hard-mode-answers'>
               <SpecialInput
                 keys={!getCurrentReverse() && ['.', '-']}
                 correctAnswer={getCurrentAnswer()}
                 onDone={hardModeNext}
-                tries={tries}
-                hardMode={hardMode}
                 availableLetters={availableLetters}
                 animatedQuestionLetter={animatedQuestionLetter}
+                text={answer}
+                setText={setAnswer}
               />
-            )}
-            {!hardMode &&
-              answers.map(answer => (
+            </div>
+          )}
+          {!hardMode && (
+            <div className='morse-test-viewer__easy-mode-answers'>
+              {answers.map(answer => (
                 <FlashCard
                   key={answer}
                   small
@@ -176,17 +188,19 @@ export default props => {
                   animateColor={animationColors[answer]}
                   onAnimationEnd={() => {
                     if (answer === getCurrentAnswer()) {
-                      if (tries === pool.length) {
+                      if (tries === pool.length - 1) {
                         setGameDone(true)
                       }
                       setAnimatedAnswer(false)
                       setTries(tries + 1)
+                      setAnswer([])
                     }
                   }}
                   onClick={animatedAnswer ? null : () => testAnswer(answer)}
                 />
               ))}
-          </div>
+            </div>
+          )}
         </>
       )}
     </div>

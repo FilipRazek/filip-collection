@@ -5,13 +5,18 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 15vh;
   color: var(--black);
   width: 50vh;
   height: 50vh;
   background-color: var(--color);
-  margin: auto;
-  -moz-user-select: -moz-none;
+  margin: 1px;
+  -moz-user-select: none;
+  cursor: default;
+}
+
+.flash-card > p,
+.flash-card > input {
+  font-size: 15vh;
 }
 
 .flash-card--clickable {
@@ -23,14 +28,23 @@
 }
 
 .flash-card--medium {
+  text-align: center;
   width: 20vh;
   height: 20vh;
+}
+
+.flash-card--medium > p,
+.flash-card--medium > input {
   font-size: 5vh;
 }
 
 .flash-card--small {
   width: 10vh;
   height: 10vh;
+}
+
+.flash-card--small > p,
+.flash-card--small > input {
   font-size: 3vh;
 }
 
@@ -41,6 +55,12 @@
 .flash-card__text,
 .flash-card__help-text {
   margin: 0.5vh 0;
+}
+
+.flash-card__input {
+  text-align: center;
+  border: none;
+  background-color: var(--transparent);
 }
 
 .flash-card__help-text {

@@ -7,11 +7,24 @@
   height: 100%;
 }
 
-.morse-test-viewer__answers {
+.morse-test-viewer__question-flash-card {
+  margin: auto;
+}
+
+.morse-test-viewer__easy-mode-answers,
+.morse-test-viewer__hard-mode-answers {
   margin-top: 5vh;
-  max-height: 100%;
-  width: 70%;
+  width: 100%;
   display: flex;
+  justify-content: space-around;
+}
+
+.morse-test-viewer__hard-mode-answers{
+  width: 100%;
+}
+
+.morse-test-viewer__easy-mode-answers{
+  width: 60%;
 }
 
 .morse-test-viewer__score-text {

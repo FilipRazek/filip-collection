@@ -1,13 +1,14 @@
 import React from 'react'
-import './index.css'
 import SVGImage from '../SVGImage'
+import './index.css'
 
-const FlashCard = props => {
+const FlashCard = React.forwardRef((props, ref) => {
   const [hover, setHover] = React.useState(false)
   const helpTextData = props.isSymbol
     ? { _: 'Underscore', '-': 'Minus', '.': 'Period' }
     : { '-': 'Dash', '.': 'Dot' }
   const helpText = helpTextData[props.text]
+  const defaultColor = props.defaultColor || 'light-light-blue'
 
   return (
     <div
@@ -27,20 +28,28 @@ const FlashCard = props => {
       style={{
         '--color':
           hover && !props.unhoverable
-            ? 'var(--light-light-blue)'
-            : 'var(--light-light-light-blue)',
+            ? `var(--${defaultColor})`
+            : `var(--light-${defaultColor})`,
         '--animate-color': `var(--${props.animateColor})`,
         '--animation-duration': props.animationDuration,
       }}
     >
-      {props.text === 'Backspace' && (
+      {props.text === 'Backspace' ? (
         <SVGImage
           clickable={props.clickable}
           name='backspace'
           alt='Backspace'
         />
-      )}
-      {props.text !== 'Backspace' && (
+      ) : props.isInput ? (
+        <input
+          ref={ref}
+          autoFocus={props.autoFocus}
+          onFocus={props.onFocus}
+          onChange={props.onChange}
+          className='flash-card__input'
+          value={props.text}
+        ></input>
+      ) : (
         <p className='flash-card__text'>{props.text}</p>
       )}
       {helpText && !props.small && (
@@ -57,6 +66,6 @@ const FlashCard = props => {
       )}
     </div>
   )
-}
+})
 
 export default FlashCard

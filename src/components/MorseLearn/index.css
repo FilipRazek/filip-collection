@@ -28,3 +28,7 @@
   text-align: center;
   margin-right: 5vw;
 }
+
+.morse-learn__next-button {
+  margin: auto;
+}

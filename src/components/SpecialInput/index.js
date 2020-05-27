@@ -1,87 +1,185 @@
 import React from 'react'
 import FlashCard from '../FlashCard'
+import copyInsert from '../../helpers/copyInsert'
 import './index.css'
 
 export default props => {
-  const [text, setText] = React.useState([])
-  const onDone = props.onDone
+  const {
+    text,
+    setText,
+    onDone,
+    animatedQuestionLetter,
+    keys,
+    correctAnswer,
+    availableLetters,
+    fixedLength,
+    caret,
+    setCaret,
+    hideKeys,
+    hideBackspace,
+  } = props
 
+  const getCaretLeft = React.useCallback(
+    () => (caret ? caret - 1 : fixedLength - 1),
+    [caret, fixedLength]
+  )
+  const getCaretRight = React.useCallback(() => (caret + 1) % fixedLength, [
+    caret,
+    fixedLength,
+  ])
+  const moveLeft = React.useCallback(() => setCaret(getCaretLeft()), [
+    getCaretLeft,
+    setCaret,
+  ])
+  const moveRight = React.useCallback(() => setCaret(getCaretRight()), [
+    getCaretRight,
+    setCaret,
+  ])
+  const deleteCharacter = React.useCallback(
+    (position = caret) => setText(copyInsert(text, position, '_')),
+    [caret, text, setText]
+  )
   const backspace = React.useCallback(() => {
-    if (text.length > 0 && !props.animatedQuestionLetter) {
-      const newText = [...text]
-      newText.pop()
-      setText(newText)
+    if (fixedLength) {
+      moveLeft()
+      deleteCharacter(getCaretLeft())
+    } else {
+      if (text.length > 0 && !animatedQuestionLetter) {
+        const newText = [...text]
+        newText.pop()
+        setText(newText)
+      }
     }
-  }, [text, props.animatedQuestionLetter])
+  }, [
+    text,
+    animatedQuestionLetter,
+    setText,
+    deleteCharacter,
+    moveLeft,
+    getCaretLeft,
+    fixedLength,
+  ])
   const clickKey = React.useCallback(
     key => {
-      if (text.length < 7 && !props.animatedQuestionLetter) {
-        const newText = [...text, key]
+      if (fixedLength) {
+        const newText = copyInsert(text, caret, key)
+
+        moveRight()
         setText(newText)
-        if (newText.join('') === props.correctAnswer) {
-          onDone()
+      } else {
+        if (text.length < 7 && !animatedQuestionLetter) {
+          const newText = [...text, key]
+          setText(newText)
+
+          if (newText.join('') === correctAnswer) {
+            onDone()
+          }
         }
       }
     },
-    [text, onDone, props.animatedQuestionLetter, props.correctAnswer]
+    [
+      text,
+      onDone,
+      animatedQuestionLetter,
+      correctAnswer,
+      setText,
+      fixedLength,
+      caret,
+      moveRight,
+    ]
   )
   const handleKeyEvent = React.useCallback(
     e => {
-      const SUPPORTED_KEYS = props.keys ? props.keys : props.availableLetters
+      const SUPPORTED_KEYS = keys ? keys : availableLetters
+
+      if (fixedLength && caret === -1) return
 
       if (e.key === 'Backspace') {
         e.preventDefault()
         backspace()
       }
-      if (SUPPORTED_KEYS.includes(e.key)) {
-        e.preventDefault()
-        clickKey(e.key)
+
+      if (fixedLength) {
+        if ([' ', '_', '.'].includes(e.key)) {
+          clickKey('_')
+        } else {
+          const functionToCall = {
+            Delete: deleteCharacter,
+            ArrowRight: moveRight,
+            ArrowLeft: moveLeft,
+          }[e.key]
+          if (functionToCall) {
+            e.preventDefault()
+            functionToCall()
+          }
+        }
+      }
+      const key = e.key.toLowerCase()
+      if (SUPPORTED_KEYS.includes(key)) {
+        clickKey(key)
       }
     },
-    [clickKey, backspace, props.keys, props.availableLetters]
+    [
+      availableLetters,
+      backspace,
+      clickKey,
+      deleteCharacter,
+      fixedLength,
+      keys,
+      caret,
+      moveLeft,
+      moveRight,
+    ]
   )
   const handleListener = React.useCallback(() => {
-    if (props.hardMode) {
-      window.addEventListener('keydown', handleKeyEvent)
-      return () => window.removeEventListener('keydown', handleKeyEvent)
-    }
-  }, [handleKeyEvent, props.hardMode])
+    window.addEventListener('keydown', handleKeyEvent)
+    return () => window.removeEventListener('keydown', handleKeyEvent)
+  }, [handleKeyEvent])
 
-  React.useEffect(
-    React.useCallback(() => setText([]), []),
-    [props.tries]
-  )
   React.useEffect(handleListener)
 
   return (
     <div className='special-input__container'>
-      <div className='special-input__input-keys-container'>
-        {props.keys &&
-          props.keys.map(key => (
-            <FlashCard
-              small
-              key={key}
-              text={key}
-              clickable={text.length < 7 && !props.animatedQuestionLetter}
-              onClick={() => clickKey(key)}
-            />
-          ))}
-      </div>
+      {!hideKeys && (
+        <div className='special-input__input-keys-container'>
+          {keys &&
+            keys.map(key => (
+              <FlashCard
+                small
+                key={key}
+                text={key}
+                clickable={text.length < 7 && !animatedQuestionLetter}
+                onClick={() => clickKey(key)}
+              />
+            ))}
+        </div>
+      )}
       <div className='special-input__input-container'>
         {text.map((key, index) => (
-          <p className='special-input__input-key' key={key + ', ' + index}>
-            {key}
+          <p
+            className={[
+              'special-input__input-key',
+              index === caret && 'special-input__input-key--selected',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+            onClick={() => props.onCellClick(index)}
+            key={key + ', ' + index}
+          >
+            {fixedLength && !index ? key.toUpperCase() : key}
           </p>
         ))}
       </div>
-      <div className='special-input__input-keys-container'>
-        <FlashCard
-          clickable={text.length > 0 && !props.animatedQuestionLetter}
-          onClick={backspace}
-          small
-          text='Backspace'
-        />
-      </div>
+      {!hideBackspace && (
+        <div className='special-input__input-keys-container'>
+          <FlashCard
+            clickable={text.length > 0 && !animatedQuestionLetter}
+            onClick={backspace}
+            small
+            text='Backspace'
+          />
+        </div>
+      )}
     </div>
   )
 }
