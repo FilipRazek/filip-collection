@@ -2,7 +2,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" 
   xmlns="http://www.w3.org/2000/svg" 
-  xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 640 640" width="640" height="640">
+  xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 640 640" width="100%" height="100%">
   <defs>
     <path d="M520 320C520 430.38 430.38 520 320 520C209.61 520 120 430.38 120 320C120 209.62 209.61 120 320 120C430.38 120 520 209.62 520 320Z" id="fKBqZJ5X"></path>
   </defs>

@@ -15,6 +15,7 @@ const getEmptyString = length => Array.from({ length }, () => '_')
 export default () => {
   // TODO: Uniformize some and find
   // TODO: Add tests
+  // TODO: Serve file with express to deploy app
   // TODO: Make excluded letters smaller
   // TODO: Add +/- buttons for length
   // TODO: Add option to select suggested letter (plat it)

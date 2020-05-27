@@ -2,18 +2,31 @@ import React from 'react'
 import './index.css'
 
 export default props => {
+  const { name, hint, hover, alt, clickable } = props
+  const [image, setImage] = React.useState()
+
+  React.useEffect(() => {
+    const getImageData = async () => {
+      const path = `/assets/${name}.svg`
+      const data = await fetch(path)
+      const html = await data.text()
+      setImage(html)
+    }
+    getImageData()
+  })
+
   return (
-    <img
+    <div
       className={[
         'image',
-        props.hint && 'image-hint',
-        props.hover && 'image-hint--visible',
-        props.clickable && 'image--clickable'
+        hint && 'image-hint',
+        hover && 'image-hint--visible',
+        clickable && 'image--clickable',
       ]
         .filter(Boolean)
         .join(' ')}
-      src={`/${props.name}.svg`}
-      alt={props.alt}
+      dangerouslySetInnerHTML={{ __html: image }}
+      alt={alt}
     />
   )
 }
