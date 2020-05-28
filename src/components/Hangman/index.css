@@ -16,6 +16,7 @@
 }
 
 .hangman__letters-info {
+  margin-top: 0;
   margin-bottom: 1%;
 }
 
@@ -61,14 +62,18 @@
   align-items: center;
 }
 
-.hangman__reset-buttons {
+.hangman__commands {
+  height: 10vh;
+  width: 90%;
+  margin: 1%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
 .hangman__output-best-letter {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 10%;
@@ -76,4 +81,14 @@
 
 .hangman__output-best-letter-text {
   margin: 0;
+}
+
+.hangman__outpust-best-letter-letter {
+  font-family: var(--special-font);
+}
+
+.hangman__language-chooser {
+  height: 100%;
+  width: 25%;
+  margin-right: 5%;
 }

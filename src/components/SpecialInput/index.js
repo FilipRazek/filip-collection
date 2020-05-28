@@ -179,35 +179,37 @@ export default props => {
         </div>
       )}
       <div className='special-input__input-container'>
-        {text.map((key, index) => (
-          <p
-            className={[
-              'special-input__input-key',
-              key === '_' &&
-                otherInput[index] !== '_' &&
-                'special-input__input-key--hint',
-              key === '_' &&
-                otherInput[index] !== '_' &&
-                index === caret &&
-                'special-input__input-key--selected-and-hint',
-              index === caret && 'special-input__input-key--selected',
-              wrongInput[index] && 'special-input__input-key--wrong',
-              wrongInput[index] &&
-                index === caret &&
-                'special-input__input-key--selected-and-wrong',
-            ]
-              .filter(Boolean)
-              .join(' ')}
-            onClick={() => props.onCellClick(index)}
-            key={key + ', ' + index}
-          >
-            {key === '_' && otherInput[index] !== '_'
+        {text.map((key, index) => {
+          const text =
+            key === '_' && otherInput[index] !== '_'
               ? `(${otherInput[index]})`
-              : fixedLength !== undefined && !index
-              ? key.toUpperCase()
-              : key}
-          </p>
-        ))}
+              : key
+          return (
+            <p
+              className={[
+                'special-input__input-key',
+                key === '_' &&
+                  otherInput[index] !== '_' &&
+                  'special-input__input-key--hint',
+                key === '_' &&
+                  otherInput[index] !== '_' &&
+                  index === caret &&
+                  'special-input__input-key--selected-and-hint',
+                index === caret && 'special-input__input-key--selected',
+                wrongInput[index] && 'special-input__input-key--wrong',
+                wrongInput[index] &&
+                  index === caret &&
+                  'special-input__input-key--selected-and-wrong',
+              ]
+                .filter(Boolean)
+                .join(' ')}
+              onClick={() => props.onCellClick(index)}
+              key={key + ', ' + index}
+            >
+              {fixedLength !== undefined && !index ? text.toUpperCase() : text}
+            </p>
+          )
+        })}
       </div>
       {!hideBackspace && (
         <div className='special-input__input-keys-container'>

@@ -2,7 +2,7 @@ import React from 'react'
 import './index.css'
 
 export default props => {
-  const { name, hint, hover, alt, clickable } = props
+  const { name, hint, hover, alt, clickable, onClick } = props
   const [image, setImage] = React.useState()
 
   React.useEffect(() => {
@@ -27,6 +27,7 @@ export default props => {
         .join(' ')}
       dangerouslySetInnerHTML={{ __html: image }}
       alt={alt}
+      onClick={clickable ? onClick : null}
     />
   )
 }

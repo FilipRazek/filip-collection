@@ -3,29 +3,28 @@ import ReactTooltip from 'react-tooltip'
 import Button from '../Button'
 import FlashCard from '../FlashCard'
 import Header from '../Header'
+import LanguageChooser from '../LanguageChooser'
 import SpecialInput from '../SpecialInput'
 import getConstantArray from '../../helpers/getConstantArray'
 import getLetterScore from '../../helpers/getLetterScore'
 import { LOWERCASE_ALPHABET } from '../../constants/alphabet'
-import { MAX_RESULTS, DEFAULT_LENGTH } from '../../constants/hangman'
+import {
+  MAX_RESULTS,
+  DEFAULT_LENGTH,
+  MAX_INPUT_LENGTH,
+  FIRST_MOVE,
+  MAX_CANDIDATES_TO_AUTO_ANALYZE,
+  LANGUAGES,
+} from '../../constants/hangman'
 import './index.css'
 
 const getDefaultExcludedLetters = () =>
   LOWERCASE_ALPHABET.reduce((data, val) => ({ ...data, [val]: false }), {})
 
 export default () => {
-  // TODO: Add option to select suggested letter (plan it)
-  // TODO: Add two (three?) keyboard modes (edit selected & edit word)
-  // TODO: Add dialog to reset word
-  // TODO: Add check to see if hangman is solved (constant MAX_NUMBER_OF_MOVES)
-  // TODO: Add caret jump on double letter input
-  // TODO: Special input cursor pointer (?)
-  // TODO: Store first two moves in memory
-  // TODO: Add in-between move to gather more information
-  // TODO: Add option to distinguish I from l
-  // TODO: Move solver to helper
-  // TODO: Add language change
   const [words, setWords] = React.useState([])
+  const [language, setLanguage] = React.useState(LANGUAGES[0])
+  const [currentWords, setCurrentWords] = React.useState([])
   const [justLoaded, setJustLoaded] = React.useState(false)
   const [excludedLetters, setExcludedLetters] = React.useState(
     getDefaultExcludedLetters()
@@ -60,11 +59,8 @@ export default () => {
     // For example, a _ _ _ should not match anna since the input would
     // then be a _ _ a
     const unMatchedCharacters = pattern.filter(letter => letter !== '_')
-    if (pattern.length === 27) {
-      return word.length > 26
-    }
-    if (pattern.length !== word.length) {
-      return false
+    if (pattern.length === MAX_INPUT_LENGTH) {
+      return word.length > MAX_INPUT_LENGTH - 1
     }
     for (let i = 0; i < pattern.length; i++) {
       const charToMatch = pattern[i]
@@ -81,14 +77,18 @@ export default () => {
   }
 
   const findCandidates = React.useCallback(
-    ({ text = inputText, excluded = excludedLetters } = {}) => {
-      return words.filter(
+    ({
+      text = inputText,
+      excluded = excludedLetters,
+      selectedWords = currentWords,
+    } = {}) => {
+      return selectedWords.filter(
         word =>
           hangmanMatches(word, text) &&
           !word.split('').some(letter => excluded[letter])
       )
     },
-    [words, excludedLetters, inputText]
+    [excludedLetters, inputText, currentWords]
   )
   const getGuessableLetters = React.useCallback(
     (candidateWords, inputLength = length) =>
@@ -122,17 +122,40 @@ export default () => {
       }),
     []
   )
+  const isReset = React.useCallback(
+    (
+      input = inputLetters,
+      newExcludedLetters = excludedLetters,
+      newLength = length
+    ) =>
+      input.join('') === getConstantArray(newLength, '_').join('') &&
+      LOWERCASE_ALPHABET.every(letter => !newExcludedLetters[letter]),
+    [excludedLetters, inputLetters, length]
+  )
   const updateBestLetter = React.useCallback(
-    newCandidates => {
-      const necessaryLetter = guessableInput.find(
-        (letter, index) => inputText[index] === '_' && letter !== '_'
+    (
+      newCandidates,
+      input,
+      newGuessableInput,
+      newExcludedLetters,
+      newLength
+    ) => {
+      if (newLength === MAX_INPUT_LENGTH) {
+        setBestLetter('[redacted]')
+        return
+      }
+      if (isReset(input, newExcludedLetters, newLength)) {
+        setBestLetter(FIRST_MOVE[language][newLength])
+        return
+      }
+      const necessaryLetter = newGuessableInput.find(
+        (letter, index) => input[index] === '_' && letter !== '_'
       )
-      console.log(necessaryLetter)
       if (necessaryLetter) {
         setBestLetter(necessaryLetter)
       } else {
         const availableLetters = LOWERCASE_ALPHABET.filter(
-          letter => !inputText.includes(letter)
+          letter => !input.includes(letter)
         )
         const scores = availableLetters.map(getLetterScore(newCandidates))
         const bestScore = Math.min(...scores)
@@ -141,11 +164,13 @@ export default () => {
         )
       }
     },
-    [inputText, guessableInput]
+    [isReset, language]
   )
   const updateInputText = input => {
     const newCandidates = findCandidates({ text: input })
     const newWrongInput = input.map(letter => excludedLetters[letter])
+    const newGuessableInput = getGuessableLetters(newCandidates)
+
     const firstWrong = newWrongInput.indexOf(true)
     if (firstWrong !== -1) {
       setCaret(firstWrong)
@@ -153,9 +178,22 @@ export default () => {
     setWrongInput(newWrongInput)
     setCandidates(newCandidates)
     if (newCandidates !== candidates) {
-      setBestLetter('')
+      if (
+        newCandidates.length > MAX_CANDIDATES_TO_AUTO_ANALYZE &&
+        !isReset(input)
+      ) {
+        setBestLetter('')
+      } else {
+        updateBestLetter(
+          newCandidates,
+          input,
+          newGuessableInput,
+          excludedLetters,
+          length
+        )
+      }
     }
-    setGuessableInput(getGuessableLetters(newCandidates))
+    setGuessableInput(newGuessableInput)
     setGuessableExcluded(getGuessableExcluded(newCandidates))
     setInputText(input)
     setInputLetters(input.filter(letter => letter !== '_'))
@@ -167,6 +205,7 @@ export default () => {
     }
     const newCandidates = findCandidates({ excluded: newExcludedLetters })
     const newWrongInput = inputText.map(letter => newExcludedLetters[letter])
+    const newGuessableInput = getGuessableLetters(newCandidates)
     const firstWrong = newWrongInput.indexOf(true)
     if (firstWrong !== -1) {
       setCaret(firstWrong)
@@ -174,9 +213,22 @@ export default () => {
     setWrongInput(newWrongInput)
     setCandidates(newCandidates)
     if (newCandidates !== candidates) {
-      setBestLetter('')
+      if (
+        newCandidates.length > MAX_CANDIDATES_TO_AUTO_ANALYZE &&
+        !isReset(inputText, newExcludedLetters)
+      ) {
+        setBestLetter('')
+      } else {
+        updateBestLetter(
+          newCandidates,
+          inputText,
+          newGuessableInput,
+          newExcludedLetters,
+          length
+        )
+      }
     }
-    setGuessableInput(getGuessableLetters(newCandidates))
+    setGuessableInput(newGuessableInput)
     setGuessableExcluded(getGuessableExcluded(newCandidates))
     setExcludedLetters(newExcludedLetters)
   }
@@ -184,41 +236,58 @@ export default () => {
     (newLength = DEFAULT_LENGTH, newFocusOnInput = true) => {
       const newExcludedLetters = getDefaultExcludedLetters()
       const newInputText = getConstantArray(newLength, '_')
+      const newCurrentWords = words.filter(word =>
+        newLength === MAX_INPUT_LENGTH
+          ? word.length > MAX_INPUT_LENGTH - 1
+          : word.length === newLength
+      )
       const newCandidates = findCandidates({
         text: newInputText,
         excluded: newExcludedLetters,
+        selectedWords: newCurrentWords,
       })
+      const newGuessableInput = getGuessableLetters(newCandidates, newLength)
 
+      setCurrentWords(newCurrentWords)
       setExcludedLetters(newExcludedLetters)
       setLength(newLength)
-      setDisplayedLength(newLength > 26 ? '>26' : newLength.toString())
+      setDisplayedLength(
+        newLength > MAX_INPUT_LENGTH - 1
+          ? `>${MAX_INPUT_LENGTH - 1}`
+          : newLength.toString()
+      )
       setInputText(newInputText)
       setInputLetters([])
       setCandidates(newCandidates)
-      if (newCandidates !== candidates) {
-        setBestLetter('')
-      }
-      setGuessableInput(getGuessableLetters(newCandidates, newLength))
+      updateBestLetter(
+        newCandidates,
+        newInputText,
+        newGuessableInput,
+        newExcludedLetters,
+        newLength
+      )
+      setGuessableInput(newGuessableInput)
       setGuessableExcluded(getGuessableExcluded(newCandidates))
       setCaret(newFocusOnInput ? -1 : 0)
       setWrongInput(getConstantArray(length, false))
       setFocusOnInput(newFocusOnInput)
     },
     [
-      findCandidates,
+      words,
       length,
       getGuessableLetters,
-      candidates,
+      findCandidates,
       getGuessableExcluded,
+      updateBestLetter,
     ]
   )
-  const isReset = () =>
-    inputText.join('') === getConstantArray(length, '_').join('') &&
-    LOWERCASE_ALPHABET.every(letter => !excludedLetters[letter])
   const handleLengthChange = React.useCallback(
     (input, newFocusOnInput) => {
-      const candidateLength = ['26<', '>26'].includes(input)
-        ? '27'
+      const candidateLength = [
+        `${MAX_INPUT_LENGTH - 1}<`,
+        `>${MAX_INPUT_LENGTH - 1}`,
+      ].includes(input)
+        ? MAX_INPUT_LENGTH.toString()
         : input
             .split('')
             .filter(letter => letter.match(/\d/))
@@ -233,10 +302,17 @@ export default () => {
       const strippedCandidate = candidateLength
         ? candidateLength.slice(index, candidateLength.length)
         : candidateLength
-      setDisplayedLength(strippedCandidate)
+      setDisplayedLength(
+        strippedCandidate === (MAX_INPUT_LENGTH + 1).toString()
+          ? `>${MAX_INPUT_LENGTH - 1}`
+          : strippedCandidate
+      )
       if (strippedCandidate) {
         const positiveLength = Math.max(parseInt(strippedCandidate), 0)
-        const newLength = positiveLength > 26 ? 27 : parseInt(positiveLength)
+        const newLength =
+          positiveLength > MAX_INPUT_LENGTH - 1
+            ? MAX_INPUT_LENGTH
+            : parseInt(positiveLength)
 
         if (newLength !== length) {
           reset(newLength, newFocusOnInput)
@@ -292,32 +368,46 @@ export default () => {
   React.useEffect(handleListener)
   React.useEffect(() => {
     const getWords = async () => {
-      const data = await fetch('english_words.txt')
+      const data = await fetch(`${language}_words.txt`)
       const text = await data.text()
       const newWords = text.split('\n').map(word => word.trim())
       setWords(newWords)
       setJustLoaded(true)
     }
     getWords()
-  }, [])
+  }, [language])
   React.useEffect(() => {
     if (justLoaded) {
-      const newCandidates = findCandidates()
+      const newCurrentWords = words.filter(word =>
+        length === MAX_INPUT_LENGTH
+          ? word.length > MAX_INPUT_LENGTH - 1
+          : word.length === length
+      )
+      setCurrentWords(newCurrentWords)
+      const newCandidates = findCandidates({ selectedWords: newCurrentWords })
+      const newGuessableInput = getGuessableLetters(newCandidates)
       setCandidates(newCandidates)
-      if (newCandidates !== candidates) {
-        setBestLetter('')
-      }
-      setGuessableInput(getGuessableLetters(newCandidates))
+      updateBestLetter(
+        newCandidates,
+        inputText,
+        newGuessableInput,
+        excludedLetters,
+        length
+      )
+      setGuessableInput(newGuessableInput)
       setGuessableExcluded(getGuessableExcluded(newCandidates))
       setJustLoaded(false)
     }
   }, [
+    inputText,
     justLoaded,
+    length,
     words,
-    findCandidates,
+    excludedLetters,
+    updateBestLetter,
     getGuessableLetters,
-    candidates,
     getGuessableExcluded,
+    findCandidates,
   ])
   React.useEffect(() => {
     if (focusOnInput) {
@@ -354,31 +444,44 @@ export default () => {
                 />
                 <Button
                   text='+'
-                  secondaryStyles={['', '>26'].includes(displayedLength)}
-                  defaultStyles={!['', '>26'].includes(displayedLength)}
+                  secondaryStyles={['', `>${MAX_INPUT_LENGTH - 1}`].includes(
+                    displayedLength
+                  )}
+                  defaultStyles={
+                    !['', `>${MAX_INPUT_LENGTH - 1}`].includes(displayedLength)
+                  }
                   onClick={() => handleLengthChangeUp(false)}
                 />
               </div>
             </div>
-            <SpecialInput
-              hideBackspace
-              hideKeys
-              otherInput={guessableInput}
-              wrongInput={wrongInput}
-              onCellClick={index => {
-                setFocusOnInput(false)
-                setCaret(index)
-              }}
-              fixedLength={length}
-              caret={caret}
-              setCaret={setCaret}
-              text={inputText}
-              setText={updateInputText}
-              allowKeyInput
-              availableLetters={LOWERCASE_ALPHABET}
-            />
+            {displayedLength !== `>${MAX_INPUT_LENGTH - 1}` && (
+              <SpecialInput
+                hideBackspace
+                hideKeys
+                otherInput={guessableInput}
+                wrongInput={wrongInput}
+                onCellClick={index => {
+                  setFocusOnInput(false)
+                  setCaret(index)
+                }}
+                fixedLength={length}
+                caret={caret}
+                setCaret={setCaret}
+                text={inputText}
+                setText={updateInputText}
+                allowKeyInput
+                availableLetters={LOWERCASE_ALPHABET}
+              />
+            )}
           </div>
-          <div className='hangman__reset-buttons'>
+          <div className='hangman__commands'>
+          <div className='hangman__language-chooser'>
+            <LanguageChooser
+              value={language}
+              setValue={setLanguage}
+              languages={LANGUAGES}
+            />
+            </div>
             <Button
               text='Reset word'
               secondaryStyles={isReset()}
@@ -435,10 +538,22 @@ export default () => {
         <div className='hangman__output-div'>
           <h1>Results</h1>
           <div className='hangman__output-best-letter'>
-            {bestLetter ? (
-              <p className='hangman__output-best-letter-text'>
-                Best letter: {bestLetter.toUpperCase()}
-              </p>
+            {bestLetter && !getDisabledMessage() ? (
+              <>
+                <p className='hangman__output-best-letter-text'>
+                  Best letter:{' '}
+                  <span className='hangman__outpust-best-letter-letter'>
+                    {length === 27 ? bestLetter : bestLetter.toUpperCase()}
+                  </span>
+                </p>
+                {length !== MAX_INPUT_LENGTH && (
+                  <Button
+                    text='Not in word'
+                    defaultRedStyles
+                    onClick={() => toggleExcluded(bestLetter)}
+                  />
+                )}
+              </>
             ) : (
               <>
                 <Button
@@ -447,7 +562,15 @@ export default () => {
                   data-tip
                   disabled={getDisabledMessage()}
                   defaultStyles
-                  onClick={() => updateBestLetter(candidates)}
+                  onClick={() =>
+                    updateBestLetter(
+                      candidates,
+                      inputText,
+                      guessableInput,
+                      excludedLetters,
+                      length
+                    )
+                  }
                 />
                 {getDisabledMessage() && (
                   <ReactTooltip id='get-best-letter-tooltip' effect='solid'>
@@ -467,7 +590,10 @@ export default () => {
           {!!candidates.length && (
             <ul>
               {candidates.slice(0, MAX_RESULTS).map(word => (
-                <li key={word}>{word}</li>
+                <li key={word}>
+                  {word}
+                  {length === MAX_INPUT_LENGTH && ` (${word.length})`}
+                </li>
               ))}
               {candidates.length > MAX_RESULTS && <li>...</li>}
             </ul>

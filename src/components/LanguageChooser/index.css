@@ -1,0 +1,27 @@
+.language-chooser__container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 100px;
+}
+
+.language-chooser__language-div-image {
+  margin: 1% 10%;
+  border: 1px solid var(--black);
+  border-radius: 1px;
+  height: 20px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.language-chooser__language-div-image--unselected:hover {
+  transform: scale(1.3);
+}
+
+.language-chooser__language-div-image--selected {
+  transform: scale(1.5);
+}

@@ -12,7 +12,14 @@
 
 .button--default {
   background-color: var(--dark-blue);
-  border: 1px solid var(--white);
+  color: var(--white);
+  border-radius: 6px;
+  border: none;
+}
+
+.button--default-red {
+  background-color: var(--red);
+  border: none;
   color: var(--white);
   border-radius: 6px;
 }
