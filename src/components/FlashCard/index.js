@@ -15,6 +15,7 @@ const FlashCard = React.forwardRef((props, ref) => {
       className={[
         'flash-card',
         props.small && 'flash-card--small',
+        props.tiny && 'flash-card--tiny',
         props.medium && 'flash-card--medium',
         props.clickable && 'flash-card--clickable',
         props.changeColor && 'flash-card--change-color',

@@ -75,20 +75,33 @@ export default () => {
     }
     return true
   }
-
+  const isReset = React.useCallback(
+    (
+      input = inputText,
+      newExcludedLetters = excludedLetters,
+      newLength = length
+    ) =>
+      input.join('') === getConstantArray(newLength, '_').join('') &&
+      LOWERCASE_ALPHABET.every(letter => !newExcludedLetters[letter]),
+    [excludedLetters, inputText, length]
+  )
   const findCandidates = React.useCallback(
     ({
       text = inputText,
       excluded = excludedLetters,
       selectedWords = currentWords,
+      newLength = length,
     } = {}) => {
+      if (isReset(text, excluded, newLength)) {
+        return selectedWords
+      }
       return selectedWords.filter(
         word =>
           hangmanMatches(word, text) &&
           !word.split('').some(letter => excluded[letter])
       )
     },
-    [excludedLetters, inputText, currentWords]
+    [excludedLetters, inputText, currentWords, isReset, length]
   )
   const getGuessableLetters = React.useCallback(
     (candidateWords, inputLength = length) =>
@@ -122,16 +135,6 @@ export default () => {
       }),
     []
   )
-  const isReset = React.useCallback(
-    (
-      input = inputLetters,
-      newExcludedLetters = excludedLetters,
-      newLength = length
-    ) =>
-      input.join('') === getConstantArray(newLength, '_').join('') &&
-      LOWERCASE_ALPHABET.every(letter => !newExcludedLetters[letter]),
-    [excludedLetters, inputLetters, length]
-  )
   const updateBestLetter = React.useCallback(
     (
       newCandidates,
@@ -144,6 +147,7 @@ export default () => {
         setBestLetter('[redacted]')
         return
       }
+      console.log('Here')
       if (isReset(input, newExcludedLetters, newLength)) {
         setBestLetter(FIRST_MOVE[language][newLength])
         return
@@ -245,6 +249,7 @@ export default () => {
         text: newInputText,
         excluded: newExcludedLetters,
         selectedWords: newCurrentWords,
+        newLength,
       })
       const newGuessableInput = getGuessableLetters(newCandidates, newLength)
 
@@ -474,13 +479,37 @@ export default () => {
               />
             )}
           </div>
+          <h3 className='hangman__letters-info'>
+            Click to toggle excluded letters:
+          </h3>
+          <div className='hangman__letters'>
+            {LOWERCASE_ALPHABET.map((letter, index) => (
+              <FlashCard
+                tiny
+                defaultColor={
+                  excludedLetters[letter]
+                    ? 'red'
+                    : inputLetters.includes(letter)
+                    ? 'light-blue'
+                    : guessableExcluded[index]
+                    ? 'light-orange'
+                    : 'green'
+                }
+                key={`Letter: ${letter}`}
+                text={letter}
+                onClick={() => toggleExcluded(letter)}
+              />
+            ))}
+          </div>
           <div className='hangman__commands'>
-          <div className='hangman__language-chooser'>
-            <LanguageChooser
-              value={language}
-              setValue={setLanguage}
-              languages={LANGUAGES}
-            />
+            <div className='hangman__language-chooser'>
+              <LanguageChooser
+                value={language}
+                setValue={language => {
+                  setLanguage(language)
+                }}
+                languages={LANGUAGES}
+              />
             </div>
             <Button
               text='Reset word'
@@ -498,11 +527,22 @@ export default () => {
               )}
               onClick={() => {
                 const newExcludedLetters = getDefaultExcludedLetters()
-                setGuessableExcluded(
-                  getConstantArray(LOWERCASE_ALPHABET.length, false)
-                )
+                const newCandidates = findCandidates({
+                  excluded: newExcludedLetters,
+                })
+                const newGuessableInput = getGuessableLetters(newCandidates)
+
                 setExcludedLetters(newExcludedLetters)
-                setCandidates(findCandidates({ excluded: newExcludedLetters }))
+                setCandidates(newCandidates)
+                updateBestLetter(
+                  newCandidates,
+                  inputText,
+                  newGuessableInput,
+                  newExcludedLetters
+                )
+                setGuessableInput(newGuessableInput)
+                setGuessableExcluded(getGuessableExcluded(newCandidates))
+                setWrongInput(getConstantArray(length, false))
               }}
             />
             <Button
@@ -511,28 +551,6 @@ export default () => {
               defaultStyles={!isReset() || length !== DEFAULT_LENGTH}
               onClick={() => reset()}
             />
-          </div>
-          <h3 className='hangman__letters-info'>
-            Click to toggle excluded letters:
-          </h3>
-          <div className='hangman__letters'>
-            {LOWERCASE_ALPHABET.map((letter, index) => (
-              <FlashCard
-                small
-                defaultColor={
-                  excludedLetters[letter]
-                    ? 'red'
-                    : inputLetters.includes(letter)
-                    ? 'light-blue'
-                    : guessableExcluded[index]
-                    ? 'light-orange'
-                    : 'green'
-                }
-                key={`Letter: ${letter}`}
-                text={letter}
-                onClick={() => toggleExcluded(letter)}
-              />
-            ))}
           </div>
         </div>
         <div className='hangman__output-div'>

@@ -28,7 +28,6 @@
 }
 
 .flash-card--medium {
-  text-align: center;
   width: 20vh;
   height: 20vh;
 }
@@ -41,6 +40,15 @@
 .flash-card--small {
   width: 10vh;
   height: 10vh;
+}
+
+.flash-card--tiny {
+  width: 6vh;
+  height: 6vh;
+}
+
+.flash-card--tiny > p {
+  font-size: 2vh;
 }
 
 .flash-card--small > p,

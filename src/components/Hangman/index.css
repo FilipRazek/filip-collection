@@ -9,14 +9,14 @@
 
 .hangman__letters {
   max-height: 40%;
-  width: 100%;
+  width: 80%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-bottom: 5%;
 }
 
 .hangman__letters-info {
-  margin-top: 0;
   margin-bottom: 1%;
 }
 
