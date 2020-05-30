@@ -10,6 +10,7 @@ export default props => {
         'button',
         props.defaultStyles && 'button--default',
         props.defaultRedStyles && 'button--default-red',
+        props.defaultGreenStyles && 'button--default-green',
         props.secondaryStyles && 'button--secondary',
         props.defaultStyles && props.disabled && 'button--default-disabled',
         ...(props.className || []),

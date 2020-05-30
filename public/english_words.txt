@@ -43211,6 +43211,7 @@ eld
 elder
 elderberries
 elderberry
+eldercare
 elderly
 elders
 eldership
@@ -60964,6 +60965,7 @@ hardbacks
 hardbake
 hardball
 hardballs
+hardboard
 hardboot
 hardboots
 hardcase
@@ -62230,6 +62232,7 @@ hematite
 hematites
 hematitic
 hematochrome
+hematocrit
 hematoid
 hematologic
 hematologist
@@ -80251,6 +80254,7 @@ maillots
 maills
 mailman
 mailmen
+mailroom
 mails
 mailsorter
 mailstate
@@ -84335,6 +84339,7 @@ minikins
 minim
 minima
 minimal
+minimalism
 minimally
 minimals
 minimax
@@ -110740,6 +110745,7 @@ reboil
 reboiled
 reboiling
 reboils
+reboot
 rebop
 rebops
 reborn
@@ -120544,6 +120550,7 @@ seafronts
 seagirt
 seagoing
 seagrass
+seagull
 seahorse
 seal
 sealable
@@ -134759,6 +134766,7 @@ tamarao
 tamaraos
 tamarau
 tamaraus
+tamari
 tamaricaceae
 tamarin
 tamarind

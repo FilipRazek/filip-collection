@@ -4,6 +4,8 @@
   min-width: 64px;
   text-transform: uppercase;
   cursor: pointer;
+  border: none;
+  border-radius: 6px;
 }
 
 .button::-moz-focus-inner {
@@ -13,15 +15,16 @@
 .button--default {
   background-color: var(--dark-blue);
   color: var(--white);
-  border-radius: 6px;
-  border: none;
 }
 
 .button--default-red {
   background-color: var(--red);
-  border: none;
   color: var(--white);
-  border-radius: 6px;
+}
+
+.button--default-green {
+  background-color: var(--green);
+  color: var(--white);
 }
 
 .button--secondary {

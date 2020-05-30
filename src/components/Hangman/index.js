@@ -41,7 +41,6 @@ export default () => {
   )
   const [candidates, setCandidates] = React.useState([])
   const [caret, setCaret] = React.useState(0)
-  const [inputLetters, setInputLetters] = React.useState([])
   const [focusOnInput, setFocusOnInput] = React.useState(true)
   const [guessableInput, setGuessableInput] = React.useState(
     getConstantArray(DEFAULT_LENGTH, '_')
@@ -147,7 +146,6 @@ export default () => {
         setBestLetter('[redacted]')
         return
       }
-      console.log('Here')
       if (isReset(input, newExcludedLetters, newLength)) {
         setBestLetter(FIRST_MOVE[language][newLength])
         return
@@ -200,7 +198,6 @@ export default () => {
     setGuessableInput(newGuessableInput)
     setGuessableExcluded(getGuessableExcluded(newCandidates))
     setInputText(input)
-    setInputLetters(input.filter(letter => letter !== '_'))
   }
   const toggleExcluded = letter => {
     const newExcludedLetters = {
@@ -262,7 +259,6 @@ export default () => {
           : newLength.toString()
       )
       setInputText(newInputText)
-      setInputLetters([])
       setCandidates(newCandidates)
       updateBestLetter(
         newCandidates,
@@ -369,6 +365,31 @@ export default () => {
 
     return ''
   }
+  const fillGuessable = () => {
+    const newInputText = guessableInput
+
+    const newCandidates = findCandidates({
+      text: newInputText,
+    })
+    const newGuessableInput = getGuessableLetters(newCandidates)
+
+    setInputText(guessableInput)
+    setInputText(newInputText)
+    setCandidates(newCandidates)
+    updateBestLetter(newCandidates, newInputText, newGuessableInput)
+    setGuessableInput(newGuessableInput)
+    setGuessableExcluded(getGuessableExcluded(newCandidates))
+  }
+  const getNewLetters = React.useCallback(
+    () => [
+      ...new Set(
+        guessableInput.filter(
+          (letter, index) => letter !== '_' && inputText[index] === '_'
+        )
+      ),
+    ],
+    [guessableInput, inputText]
+  )
 
   React.useEffect(handleListener)
   React.useEffect(() => {
@@ -489,7 +510,7 @@ export default () => {
                 defaultColor={
                   excludedLetters[letter]
                     ? 'red'
-                    : inputLetters.includes(letter)
+                    : inputText.includes(letter)
                     ? 'light-blue'
                     : guessableExcluded[index]
                     ? 'light-orange'
@@ -558,9 +579,9 @@ export default () => {
           <div className='hangman__output-best-letter'>
             {bestLetter && !getDisabledMessage() ? (
               <>
-                <p className='hangman__output-best-letter-text'>
+                <p>
                   Best letter:{' '}
-                  <span className='hangman__outpust-best-letter-letter'>
+                  <span className='hangman__output-best-letter-letter'>
                     {length === 27 ? bestLetter : bestLetter.toUpperCase()}
                   </span>
                 </p>
@@ -594,6 +615,26 @@ export default () => {
                   <ReactTooltip id='get-best-letter-tooltip' effect='solid'>
                     {getDisabledMessage()}
                   </ReactTooltip>
+                )}
+              </>
+            )}
+          </div>
+          <div className='hangman__output-guessed-letters'>
+            {!!getNewLetters().length && (
+              <>
+                <p>
+                  Guessable letter{getNewLetters().length > 1 && 's'}:{' '}
+                  <span className='hangman__output-guessed-letters-letter'>
+                    {getNewLetters().slice(0, 3).join(', ').toUpperCase() +
+                      (getNewLetters().length > 3 ? '...' : '')}
+                  </span>
+                </p>
+                {length !== MAX_INPUT_LENGTH && (
+                  <Button
+                    text='Fill'
+                    defaultGreenStyles
+                    onClick={fillGuessable}
+                  />
                 )}
               </>
             )}
