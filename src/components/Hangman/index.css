@@ -71,19 +71,13 @@
   align-items: center;
 }
 
-.hangman__output-best-letter,
-.hangman__output-guessed-letters {
+.hangman__output-best-letter {
   width: 80%;
   display: flex;
   justify-content: space-around;
   align-items: center;
   height: 5%;
   margin: 0;
-}
-
-.hangman__output-best-letter-letter,
-.hangman__output-guessed-letters-letter {
-  font-family: var(--special-font);
 }
 
 .hangman__language-chooser {

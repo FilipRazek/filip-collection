@@ -365,31 +365,6 @@ export default () => {
 
     return ''
   }
-  const fillGuessable = () => {
-    const newInputText = guessableInput
-
-    const newCandidates = findCandidates({
-      text: newInputText,
-    })
-    const newGuessableInput = getGuessableLetters(newCandidates)
-
-    setInputText(guessableInput)
-    setInputText(newInputText)
-    setCandidates(newCandidates)
-    updateBestLetter(newCandidates, newInputText, newGuessableInput)
-    setGuessableInput(newGuessableInput)
-    setGuessableExcluded(getGuessableExcluded(newCandidates))
-  }
-  const getNewLetters = React.useCallback(
-    () => [
-      ...new Set(
-        guessableInput.filter(
-          (letter, index) => letter !== '_' && inputText[index] === '_'
-        )
-      ),
-    ],
-    [guessableInput, inputText]
-  )
 
   React.useEffect(handleListener)
   React.useEffect(() => {
@@ -615,26 +590,6 @@ export default () => {
                   <ReactTooltip id='get-best-letter-tooltip' effect='solid'>
                     {getDisabledMessage()}
                   </ReactTooltip>
-                )}
-              </>
-            )}
-          </div>
-          <div className='hangman__output-guessed-letters'>
-            {!!getNewLetters().length && (
-              <>
-                <p>
-                  Guessable letter{getNewLetters().length > 1 && 's'}:{' '}
-                  <span className='hangman__output-guessed-letters-letter'>
-                    {getNewLetters().slice(0, 3).join(', ').toUpperCase() +
-                      (getNewLetters().length > 3 ? '...' : '')}
-                  </span>
-                </p>
-                {length !== MAX_INPUT_LENGTH && (
-                  <Button
-                    text='Fill'
-                    defaultGreenStyles
-                    onClick={fillGuessable}
-                  />
                 )}
               </>
             )}
