@@ -62316,6 +62316,7 @@ hemorrhoid
 hemorrhoidal
 hemorrhoids
 hemosiderin
+hemostasis
 hemostat
 hemostatic
 hemostatics
@@ -65175,6 +65176,7 @@ hydroponic
 hydroponically
 hydroponics
 hydropot
+hydropower
 hydrops
 hydropses
 hydropsies
@@ -83697,6 +83699,7 @@ microliters
 microluces
 microlux
 microluxes
+micromanage
 micromeria
 micrometeoric
 micrometeorite
@@ -105134,6 +105137,7 @@ presager
 presagers
 presages
 presaging
+presale
 presbyope
 presbyopia
 presbyopic
@@ -140416,6 +140420,9 @@ triarch
 triarchies
 triarchy
 triassic
+triathlon
+triathlete
+triathletes
 triatoma
 triaxial
 triazin
@@ -152869,6 +152876,7 @@ workdays
 worked
 worker
 workers
+workfare
 workflow
 workfolk
 workforce
