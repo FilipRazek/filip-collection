@@ -362,8 +362,6 @@ export default () => {
     if (!candidates.length) return 'No words found'
     const realInputLength = inputText.filter(letter => letter !== '_').length
     if (realInputLength === length) return 'You can not play from here'
-
-    return ''
   }
 
   React.useEffect(handleListener)
