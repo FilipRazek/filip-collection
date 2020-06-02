@@ -154,7 +154,7 @@ export default () => {
         newGuessableInput.find(
           (letter, index) => input[index] === '_' && letter !== '_'
         ) || getGuessableLetters(newCandidates, input)[0]
-      console.log(necessaryLetter)
+
       if (necessaryLetter) {
         setBestLetter(necessaryLetter)
       } else {
@@ -359,9 +359,8 @@ export default () => {
     window.addEventListener('keydown', handleKeyEvent)
     return () => window.removeEventListener('keydown', handleKeyEvent)
   }, [handleKeyEvent])
-  const getGuessableLetters = (candidates, input) => {
-    console.log('Getting letters')
-    return candidates.length
+  const getGuessableLetters = (candidates, input) =>
+    candidates.length
       ? candidates[0]
           .split('')
           .filter(
@@ -370,7 +369,6 @@ export default () => {
               candidates.every(candidate => candidate.includes(letter))
           )
       : []
-  }
   const getDisabledMessage = () => {
     if (!words.length) return 'Dictionary is loading...'
     if (!candidates.length) return 'No words found'
