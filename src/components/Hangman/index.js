@@ -102,7 +102,7 @@ export default () => {
     },
     [excludedLetters, inputText, currentWords, isReset, length]
   )
-  const getGuessableLetters = React.useCallback(
+  const getGuessableInput = React.useCallback(
     (candidateWords, inputLength = length) =>
       Array.from({ length: inputLength }, (_, index) => {
         const candidateLetter = candidateWords.length
@@ -150,9 +150,11 @@ export default () => {
         setBestLetter(FIRST_MOVE[language][newLength])
         return
       }
-      const necessaryLetter = newGuessableInput.find(
-        (letter, index) => input[index] === '_' && letter !== '_'
-      )
+      const necessaryLetter =
+        newGuessableInput.find(
+          (letter, index) => input[index] === '_' && letter !== '_'
+        ) || getGuessableLetters(newCandidates, input)[0]
+      console.log(necessaryLetter)
       if (necessaryLetter) {
         setBestLetter(necessaryLetter)
       } else {
@@ -171,7 +173,7 @@ export default () => {
   const updateInputText = input => {
     const newCandidates = findCandidates({ text: input })
     const newWrongInput = input.map(letter => excludedLetters[letter])
-    const newGuessableInput = getGuessableLetters(newCandidates)
+    const newGuessableInput = getGuessableInput(newCandidates)
 
     const firstWrong = newWrongInput.indexOf(true)
     if (firstWrong !== -1) {
@@ -206,7 +208,7 @@ export default () => {
     }
     const newCandidates = findCandidates({ excluded: newExcludedLetters })
     const newWrongInput = inputText.map(letter => newExcludedLetters[letter])
-    const newGuessableInput = getGuessableLetters(newCandidates)
+    const newGuessableInput = getGuessableInput(newCandidates)
     const firstWrong = newWrongInput.indexOf(true)
     if (firstWrong !== -1) {
       setCaret(firstWrong)
@@ -248,7 +250,7 @@ export default () => {
         selectedWords: newCurrentWords,
         newLength,
       })
-      const newGuessableInput = getGuessableLetters(newCandidates, newLength)
+      const newGuessableInput = getGuessableInput(newCandidates, newLength)
 
       setCurrentWords(newCurrentWords)
       setExcludedLetters(newExcludedLetters)
@@ -276,7 +278,7 @@ export default () => {
     [
       words,
       length,
-      getGuessableLetters,
+      getGuessableInput,
       findCandidates,
       getGuessableExcluded,
       updateBestLetter,
@@ -357,6 +359,18 @@ export default () => {
     window.addEventListener('keydown', handleKeyEvent)
     return () => window.removeEventListener('keydown', handleKeyEvent)
   }, [handleKeyEvent])
+  const getGuessableLetters = (candidates, input) => {
+    console.log('Getting letters')
+    return candidates.length
+      ? candidates[0]
+          .split('')
+          .filter(
+            letter =>
+              !input.includes(letter) &&
+              candidates.every(candidate => candidate.includes(letter))
+          )
+      : []
+  }
   const getDisabledMessage = () => {
     if (!words.length) return 'Dictionary is loading...'
     if (!candidates.length) return 'No words found'
@@ -384,7 +398,7 @@ export default () => {
       )
       setCurrentWords(newCurrentWords)
       const newCandidates = findCandidates({ selectedWords: newCurrentWords })
-      const newGuessableInput = getGuessableLetters(newCandidates)
+      const newGuessableInput = getGuessableInput(newCandidates)
       setCandidates(newCandidates)
       updateBestLetter(
         newCandidates,
@@ -404,7 +418,7 @@ export default () => {
     words,
     excludedLetters,
     updateBestLetter,
-    getGuessableLetters,
+    getGuessableInput,
     getGuessableExcluded,
     findCandidates,
   ])
@@ -524,7 +538,7 @@ export default () => {
                 const newCandidates = findCandidates({
                   excluded: newExcludedLetters,
                 })
-                const newGuessableInput = getGuessableLetters(newCandidates)
+                const newGuessableInput = getGuessableInput(newCandidates)
 
                 setExcludedLetters(newExcludedLetters)
                 setCandidates(newCandidates)
