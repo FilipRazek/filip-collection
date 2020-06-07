@@ -56,14 +56,11 @@ export default () => {
     }
   }
 
-  React.useEffect(
-    React.useCallback(() => {
-      if ([2, 0, 1][AI] === turn) {
-        playAI()
-      }
-    }, [AI, playAI, turn]),
-    [AI, turn, playAI]
-  )
+  React.useEffect(() => {
+    if (!done && [2, 0, 1][AI] === turn) {
+      playAI()
+    }
+  }, [done, AI, playAI, turn])
 
   return (
     <div className='tic-tac-toe__container'>
