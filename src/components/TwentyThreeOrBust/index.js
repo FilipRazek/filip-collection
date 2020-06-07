@@ -325,7 +325,7 @@ export default () => {
                 value={manualMode}
                 toggle={() => {
                   if (!manualMode) {
-                    if (matchHasNotStarted() || (matchDone && !gameDone)) {
+                    if (matchHasNotStarted() || matchDone) {
                       reset(true)
                       setManualMode(true)
                       setPlayer1AI(false)
