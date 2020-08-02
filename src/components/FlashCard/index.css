@@ -12,10 +12,6 @@
   margin: 1px;
   -moz-user-select: none;
   cursor: default;
-}
-
-.flash-card > p,
-.flash-card > input {
   font-size: 15vh;
 }
 
@@ -67,17 +63,14 @@
 
 .flash-card__input {
   text-align: center;
+  outline: none;
   border: none;
   background-color: var(--transparent);
 }
 
 .flash-card__help-text {
-  font-size: 5vh;
+  font-size: 6vh;
   color: var(--dark-gray);
-}
-
-.flash-card__help-text--medium {
-  font-size: 3vh;
 }
 
 @keyframes change-color {

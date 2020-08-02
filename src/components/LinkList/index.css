@@ -1,7 +1,6 @@
 .link-list__list {
-  list-style-type: square;
-}
-
-.link-list__link:active{
-  color: var(--dark-blue);
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 80%;
+  justify-content: center;
 }

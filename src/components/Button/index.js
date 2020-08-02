@@ -6,6 +6,7 @@ export default props => {
     <button
       data-for={props['data-for']}
       data-tip={props['data-tip']}
+      disabled={props.disabled}
       className={[
         'button',
         props.defaultStyles && 'button--default',

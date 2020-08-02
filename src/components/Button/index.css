@@ -6,6 +6,7 @@
   cursor: pointer;
   border: none;
   border-radius: 6px;
+  outline: none;
 }
 
 .button::-moz-focus-inner {

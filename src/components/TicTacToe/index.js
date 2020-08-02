@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactTooltip from 'react-tooltip'
 import Button from '../Button'
 import Cell from '../Cell'
 import Header from '../Header'
@@ -79,11 +80,15 @@ export default () => {
         ))}
       </div>
       <Button
-        defaultStyles={!done}
-        secondaryStyles={done}
-        onClick={playAI}
+        defaultStyles
+        data-for='ttt-play-ai-move-tooltip'
+        data-tip
+        disabled={done}
         text='Play AI move'
       />
+      <ReactTooltip id='ttt-play-ai-move-tooltip' effect='solid'>
+        {done ? 'The game is finished' : ''}
+      </ReactTooltip>
       <ThreeWaySwitch
         value={AI.toString()}
         style={{

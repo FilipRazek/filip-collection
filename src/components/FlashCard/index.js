@@ -53,16 +53,7 @@ const FlashCard = React.forwardRef((props, ref) => {
         <p className='flash-card__text'>{props.text}</p>
       )}
       {helpText && !props.small && (
-        <p
-          className={[
-            'flash-card__help-text',
-            props.medium && 'flash-card__help-text--medium',
-          ]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          {helpText}
-        </p>
+        <p className='flash-card__help-text'>{helpText}</p>
       )}
     </div>
   )

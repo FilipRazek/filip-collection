@@ -188,6 +188,12 @@ export default () => {
     setPlayer1AI(false)
     setPlayer2AI(false)
   }
+  const exitManualMode = () => {
+    reset(true)
+    setManualModeDialogOpen(false)
+    setManualMode(false)
+    setPlayer2AI(true)
+  }
   const matchHasNotStarted = () =>
     matchScorePlayer1 + matchScorePlayer2 === 0 && score === 0
 
@@ -324,17 +330,19 @@ export default () => {
               <SimpleSwitch
                 value={manualMode}
                 toggle={() => {
+                  console.log(manualMode, matchHasNotStarted(), matchDone)
                   if (!manualMode) {
                     if (matchHasNotStarted() || matchDone) {
-                      reset(true)
-                      setManualMode(true)
-                      setPlayer1AI(false)
-                      setPlayer2AI(false)
+                      goIntoManualMode()
                     } else {
                       setManualModeDialogOpen(true)
                     }
                   } else {
-                    setManualMode(false)
+                    if (matchHasNotStarted() || matchDone) {
+                      exitManualMode()
+                    } else {
+                      setManualModeDialogOpen(true)
+                    }
                   }
                 }}
               />
@@ -371,9 +379,9 @@ export default () => {
         />
         <YesNoDialog
           open={manualModeDialogOpen}
-          onYes={goIntoManualMode}
+          onYes={manualMode ? exitManualMode : goIntoManualMode}
           onClose={() => setManualModeDialogOpen(false)}
-          text='Going into manual mode will reset the current match. Do you want to continue?'
+          text='This will reset the current match. Do you want to continue?'
         />
         <YesNoDialog
           open={!!playerChangeDialogOpen}

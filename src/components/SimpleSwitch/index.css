@@ -12,6 +12,7 @@
   background: transparent;
   cursor: pointer;
   margin: 0;
+  outline: none;
 }
 
 .simple-switch__switch::-moz-focus-outer {
