@@ -8,7 +8,7 @@ export default props => {
 
   return (
     <div className='home__container'>
-      <Header noLinkHome title='Welcome!' helpPath='/about' />
+      <Header noLinkHome title='Welcome!' />
       <p className='home__text'>
         There {activitiesCount === 1 ? 'is' : 'are'} currently {activitiesCount}{' '}
         {activitiesCount === 1 ? 'activity' : 'activities'} available on this

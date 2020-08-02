@@ -64,7 +64,7 @@ export default props => {
 
   return (
     <div className='morse__container'>
-      <Header title='Morse' helpPath='/help' />
+      <Header title='Morse' />
       <ThreeWaySwitch
         value={MODES.indexOf(mode)}
         style={{

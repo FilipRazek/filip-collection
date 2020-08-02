@@ -66,7 +66,7 @@ export default () => {
 
   return (
     <div className='numeral-converter__body'>
-      <Header title='Roman Numeral Converter' helpPath='/help' />
+      <Header title='Roman Numeral Converter' />
       <div className='numeral-converter__container'>
         <div className='numeral-converter__input-container'>
           <input

@@ -65,7 +65,7 @@ export default () => {
 
   return (
     <div className='tic-tac-toe__container'>
-      <Header title='Tic Tac Toe' helpPath='/help' />
+      <Header title='Tic Tac Toe' />
       <div className='tic-tac-toe__board'>
         {board.map((cellValue, index) => (
           <Cell

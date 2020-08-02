@@ -4,6 +4,7 @@ import SVGImage from '../SVGImage'
 import './index.css'
 
 export default props => {
+  // TODO: Add fade-in effect on hover to home page
   return (
     <div className='header__container'>
       <div className='header__left-icons'>
@@ -17,13 +18,20 @@ export default props => {
         <p className='header__item'>{props.title}</p>
       </div>
       <div className='header__right-icons'>
-        {!props.noHelpLink && (
+        {props.noHelpLink ? (
+          <Link
+            className='header__icon'
+            to={
+              window.location.pathname.substring(0, 5) === '/help'
+                ? window.location.pathname.substring(5)
+                : '/'
+            }
+          >
+            <SVGImage clickable name='back' alt='Help' />
+          </Link>
+        ) : (
           <Link className='header__icon' to={'help' + window.location.pathname}>
-            <SVGImage
-              clickable
-              name='help'
-              alt='Help'
-            />
+            <SVGImage clickable name='help' alt='Help' />
           </Link>
         )}
       </div>

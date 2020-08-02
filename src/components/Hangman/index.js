@@ -430,7 +430,7 @@ export default () => {
 
   return (
     <div className='hangman__container'>
-      <Header title='Hangman solver' helpPath='/help' />
+      <Header title='Hangman solver' />
       <div className='hangman__body'>
         <div className='hangman__input-div'>
           <div className='hangman__input-text-div'>

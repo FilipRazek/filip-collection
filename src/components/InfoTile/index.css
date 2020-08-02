@@ -4,6 +4,10 @@
   color: var(--purple);
 }
 
+.info-tile__top-container {
+  margin: 2vh;
+}
+
 .info-tile__container {
   display: flex;
   flex-direction: column;
@@ -11,12 +15,17 @@
   justify-content: center;
   align-items: center;
   justify-content: space-around;
-  width: 35vh;
-  height: 35vh;
+  width: 30vh;
+  height: 30vh;
   border: solid 1px var(--dark-gray);
-  border-radius: 5px;
-  margin: 5px;
+  border-radius: 10px;
+  margin: 0;
   outline: none;
+}
+
+.info-tile__container:hover {
+  background-color: var(--light-purple);
+  transform: scale(1.1);
 }
 
 .info-tile__image {

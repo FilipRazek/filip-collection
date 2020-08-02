@@ -1,5 +1,10 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom'
 import AboutPage from '../AboutPage'
 import HelpPage from '../HelpPage'
 import Hangman from '../Hangman'
@@ -47,11 +52,14 @@ const HomeRouter = () => {
               {link.component}
             </Route>
           ))}
-          <Route path='/about'>
+          <Route exact path='/about'>
             <AboutPage />
           </Route>
+          <Route exact path='/help'>
+            <Redirect to='/about' />
+          </Route>
           <Route path='/help/:activity' component={HelpPage} />
-          <Route path='/'>
+          <Route exact path='/'>
             <Home links={links} />
           </Route>
         </Switch>

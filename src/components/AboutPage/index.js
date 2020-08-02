@@ -6,7 +6,7 @@ export default () => {
   return (
     <div className='about-page__body'>
       <Header title='About' noHelpLink />
-      <p>This is an empty about page.</p>
+      <p>Welcome to my website! I publish my small React projects here.</p>
     </div>
   )
 }

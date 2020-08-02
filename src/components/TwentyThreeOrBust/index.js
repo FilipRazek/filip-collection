@@ -224,7 +224,7 @@ export default () => {
 
   return (
     <div className='twenty-three-or-bust__body'>
-      <Header title='23 or Bust' helpPath='/help' />
+      <Header title='23 or Bust' />
       <div className='twenty-three-or-bust__container'>
         <PlayerBanner
           toggleValue={player1AI}
