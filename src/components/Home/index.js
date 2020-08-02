@@ -4,7 +4,6 @@ import LinkList from '../LinkList'
 import './index.css'
 
 export default props => {
-  // TODO: Use Banners to represent activities
   const activitiesCount = props.links.filter(activity => activity.label).length
 
   return (

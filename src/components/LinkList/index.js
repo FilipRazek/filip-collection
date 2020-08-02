@@ -9,6 +9,7 @@ export default props => {
         link =>
           link.label && (
             <InfoTile
+              key={link.path}
               to={link.path}
               image={link.image || 'circle'}
               label={link.label}

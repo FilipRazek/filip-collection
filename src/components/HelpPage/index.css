@@ -6,3 +6,7 @@
   width: 100vw;
   height: 100vh;
 }
+
+.help-page__text {
+  text-align: center;
+}

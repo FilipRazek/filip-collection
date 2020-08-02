@@ -18,8 +18,12 @@ export default props => {
       </div>
       <div className='header__right-icons'>
         {!props.noHelpLink && (
-          <Link className='header__icon' to={props.helpPath}>
-            <SVGImage clickable={props.helpPath} name='help' alt='Help' />
+          <Link className='header__icon' to={'help' + window.location.pathname}>
+            <SVGImage
+              clickable
+              name='help'
+              alt='Help'
+            />
           </Link>
         )}
       </div>

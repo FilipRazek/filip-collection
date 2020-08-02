@@ -50,9 +50,7 @@ const HomeRouter = () => {
           <Route path='/about'>
             <AboutPage />
           </Route>
-          <Route path='/help'>
-            <HelpPage />
-          </Route>
+          <Route path='/help/:activity' component={HelpPage} />
           <Route path='/'>
             <Home links={links} />
           </Route>

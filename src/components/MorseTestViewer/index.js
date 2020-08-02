@@ -8,7 +8,6 @@ import { MORSE_TABLE } from '../../constants/morse'
 import './index.css'
 
 export default props => {
-  // TODO: Add dialog on help/home button click (when testing)
   const [score, setScore] = React.useState(0)
   const [tries, setTries] = React.useState(0)
   const [ticks, setTicks] = React.useState(0)

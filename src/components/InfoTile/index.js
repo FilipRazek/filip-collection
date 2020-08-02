@@ -9,7 +9,7 @@ export default props => {
       <div className='info-tile__container'>
         <div className='info-tile__label'>{props.label}</div>
         <div className='info-tile__image'>
-          <SVGImage clickable name={props.image + 'g'} alt={props.label} />
+          <SVGImage clickable name={props.image} alt={props.label} />
         </div>
       </div>
     </Link>

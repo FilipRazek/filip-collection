@@ -330,7 +330,6 @@ export default () => {
               <SimpleSwitch
                 value={manualMode}
                 toggle={() => {
-                  console.log(manualMode, matchHasNotStarted(), matchDone)
                   if (!manualMode) {
                     if (matchHasNotStarted() || matchDone) {
                       goIntoManualMode()
