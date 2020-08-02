@@ -11,22 +11,30 @@ import TwentyThreeOrBust from '../TwentyThreeOrBust'
 
 const HomeRouter = () => {
   const links = [
-    { path: '/hangman', label: 'Hangman solver', component: <Hangman /> },
-    { path: '/morse', label: 'Morse', component: <Morse /> },
+    {
+      path: '/hangman',
+      label: 'Hangman solver',
+      component: <Hangman />,
+      image: 'hangman',
+    },
+    { path: '/morse', label: 'Morse', component: <Morse />, image: 'morse' },
     {
       path: '/twenty-three-or-bust',
       label: '23 or Bust',
       component: <TwentyThreeOrBust />,
+      image: '23',
     },
     {
       path: '/tic-tac-toe',
       label: 'Tic Tac Toe',
       component: <TicTacToe />,
+      image: 'tic_tac_toe',
     },
     {
       path: '/numeral-converter',
       label: 'Roman numeral converter',
       component: <NumeralConverter />,
+      image: 'roman_numerals',
     },
   ]
 

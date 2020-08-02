@@ -1,3 +1,9 @@
+.info-tile__link {
+  outline: none;
+  text-decoration: none;
+  color: var(--purple);
+}
+
 .info-tile__container {
   display: flex;
   flex-direction: column;
@@ -10,6 +16,7 @@
   border: solid 1px var(--dark-gray);
   border-radius: 5px;
   margin: 5px;
+  outline: none;
 }
 
 .info-tile__image {

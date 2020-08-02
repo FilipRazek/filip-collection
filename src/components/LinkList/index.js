@@ -8,7 +8,11 @@ export default props => {
       {props.links.map(
         link =>
           link.label && (
-            <InfoTile to={link.path} image='circle' label={link.label}></InfoTile>
+            <InfoTile
+              to={link.path}
+              image={link.image || 'circle'}
+              label={link.label}
+            ></InfoTile>
           )
       )}
     </div>

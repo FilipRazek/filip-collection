@@ -5,13 +5,13 @@ import './index.css'
 
 export default props => {
   return (
-    <div className='info-tile__container' style={props.style}>
-      <div className='info-tile__label'>
-        <Link to={props.to}>{props.label}</Link>
+    <Link to={props.to} className='info-tile__link'>
+      <div className='info-tile__container'>
+        <div className='info-tile__label'>{props.label}</div>
+        <div className='info-tile__image'>
+          <SVGImage clickable name={props.image + 'g'} alt={props.label} />
+        </div>
       </div>
-      <div className='info-tile__image'>
-        <SVGImage name={props.image} alt={props.imageName} />
-      </div>
-    </div>
+    </Link>
   )
 }
